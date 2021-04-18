@@ -6,8 +6,8 @@
 
     <!-- Home Screen -->
     <string name="title_activity_home">Home Page</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_1">Movies</string>
+    <string name="tab_text_2">TV Shows</string>
 
     <!-- Detail Screen -->
     <string name="title_activity_detail">Detail Page</string>
