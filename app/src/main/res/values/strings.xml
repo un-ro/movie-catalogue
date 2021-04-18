@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">Movie Catalogue</string>
-    <string name="title_activity_home">HomeActivity</string>
+
+    <!-- Splash Screen -->
+    <string name="splash_content_description">Movie Catalogue Logo</string>
+
+    <!-- Home Screen -->
+    <string name="title_activity_home">Home Page</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+
+    <!-- Detail Screen -->
+    <string name="title_activity_detail">Detail Page</string>
+    <string name="item_cd_poster">Item: Poster Image</string>
+
 </resources>

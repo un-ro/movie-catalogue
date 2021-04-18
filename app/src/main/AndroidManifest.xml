@@ -9,7 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieCatalogue">
-        <activity android:name=".ui.detail.DetailActivity" />
+        <activity
+            android:name=".ui.detail.DetailActivity"
+            android:label="@string/title_activity_detail"
+            android:parentActivityName=".ui.home.HomeActivity"
+            android:theme="@style/Theme.MaterialComponents.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.home.HomeActivity"/>
+        </activity>
         <activity
             android:name=".ui.home.HomeActivity"
             android:label="@string/title_activity_home"
