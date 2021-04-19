@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.unero.moviecatalogue.data.model.TVShow
-import com.unero.moviecatalogue.databinding.ItemTvBinding
+import com.unero.moviecatalogue.databinding.ItemBinding
 
 class TVAdapter: RecyclerView.Adapter<TVViewHolder>() {
 
@@ -17,7 +17,7 @@ class TVAdapter: RecyclerView.Adapter<TVViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TVViewHolder {
-        val binding = ItemTvBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TVViewHolder(binding)
     }
 

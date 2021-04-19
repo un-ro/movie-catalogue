@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.unero.moviecatalogue.data.model.Movie
-import com.unero.moviecatalogue.databinding.ItemMovieBinding
+import com.unero.moviecatalogue.databinding.ItemBinding
 
 class MovieAdapter: RecyclerView.Adapter<MovieViewHolder>() {
 
@@ -17,7 +17,7 @@ class MovieAdapter: RecyclerView.Adapter<MovieViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        val binding = ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MovieViewHolder(binding)
     }
 

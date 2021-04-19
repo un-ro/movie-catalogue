@@ -12,5 +12,7 @@
     <!-- Detail Screen -->
     <string name="title_activity_detail">Detail Page</string>
     <string name="item_cd_poster">Item: Poster Image</string>
+    <string name="rating_shape">Rating Shape</string>
+    <string name="poster_as_background">Poster as Background</string>
 
 </resources>

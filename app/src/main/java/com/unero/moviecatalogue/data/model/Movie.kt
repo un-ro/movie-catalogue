@@ -1,5 +1,9 @@
 package com.unero.moviecatalogue.data.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Movie(
     val id: Int,
     val title: String,
@@ -8,4 +12,4 @@ data class Movie(
     val poster_path: String,
     val vote_average: Float,
     val original_language: String
-)
+): Parcelable
