@@ -1,12 +1,12 @@
-package com.unero.moviecatalogue.ui.home.ui.main
+package com.unero.moviecatalogue.ui.home
 
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.unero.moviecatalogue.R
-import com.unero.moviecatalogue.ui.home.ui.fragment.MovieFragment
-import com.unero.moviecatalogue.ui.home.ui.fragment.TVShowFragment
+import com.unero.moviecatalogue.ui.home.tabs.movie.MovieFragment
+import com.unero.moviecatalogue.ui.home.tabs.tv.TVShowFragment
 
 private val TAB_TITLES = arrayOf(
     R.string.tab_text_1,

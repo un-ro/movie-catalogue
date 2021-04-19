@@ -2,12 +2,13 @@ package com.unero.moviecatalogue.ui.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.unero.moviecatalogue.databinding.ActivityHomeBinding
-import com.unero.moviecatalogue.ui.home.ui.main.SectionsPagerAdapter
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
+    private lateinit var viewModel: PageViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,5 +23,15 @@ class HomeActivity : AppCompatActivity() {
         }
 
         supportActionBar?.elevation = 0f
+
+        setupData()
+    }
+
+    private fun setupData() {
+        viewModel = ViewModelProvider(this).get(PageViewModel::class.java)
+
+        // Fetch from API
+        viewModel.topMovies()
+        viewModel.topTV()
     }
 }
