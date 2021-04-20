@@ -53,7 +53,6 @@ class TVShowFragment : Fragment() {
             tvAdapter = TVAdapter()
             adapter = tvAdapter
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(requireContext())
         }
     }
 }

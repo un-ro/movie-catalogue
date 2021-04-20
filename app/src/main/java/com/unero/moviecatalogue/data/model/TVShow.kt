@@ -10,5 +10,6 @@ data class TVShow(
     val overview: String,
     val first_air_date: String,
     val vote_average: Float,
-    val poster_path: String
+    val poster_path: String,
+    val origin_country: List<String>
 ): Parcelable

@@ -24,7 +24,8 @@
             android:name=".ui.home.HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/Theme.MovieCatalogue.NoActionBar" />
-        <activity android:name=".ui.splash.SplashActivity">
+        <activity android:name=".ui.splash.SplashActivity"
+            android:theme="@style/Theme.MaterialComponents.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

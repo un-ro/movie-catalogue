@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.unero.moviecatalogue.databinding.FragmentMovieBinding
 import com.unero.moviecatalogue.ui.home.PageViewModel
 
@@ -50,7 +49,6 @@ class MovieFragment : Fragment() {
             movieAdapter = MovieAdapter()
             adapter = movieAdapter
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(requireContext())
         }
     }
 }
