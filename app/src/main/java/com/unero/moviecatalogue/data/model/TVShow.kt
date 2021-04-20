@@ -1,7 +1,7 @@
 package com.unero.moviecatalogue.data.model
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class TVShow(
@@ -11,5 +11,6 @@ data class TVShow(
     val first_air_date: String,
     val vote_average: Float,
     val poster_path: String,
-    val origin_country: List<String>
+    val origin_country: List<String>,
+    val original_language: String
 ): Parcelable

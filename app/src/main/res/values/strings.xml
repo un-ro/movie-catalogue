@@ -14,5 +14,9 @@
     <string name="item_cd_poster">Item: Poster Image</string>
     <string name="rating_shape">Rating Shape</string>
     <string name="poster_as_background">Poster as Background</string>
+    <string name="poster_on_top">Poster on top</string>
+    <string name="meta">%1$s \t %2$s \t %3$s</string>
+    <string name="share">Are you ever watch this movie? The title is %1$s, release at %2$s</string>
+    <string name="item_share">Share</string>
 
 </resources>
