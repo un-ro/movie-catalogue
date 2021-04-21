@@ -2,6 +2,7 @@ package com.unero.moviecatalogue.data.api
 
 import com.unero.moviecatalogue.data.model.ResultMovie
 import com.unero.moviecatalogue.data.model.ResultShows
+import retrofit2.Call
 import retrofit2.Response
 
 object Repository {
@@ -12,5 +13,14 @@ object Repository {
 
     suspend fun topTV(key: String): Response<ResultShows> {
         return Client.retrofit.topTV(key)
+    }
+
+    // Testing
+    fun testMovie(key: String): Call<ResultMovie> {
+        return Client.retrofit.testMovie(key)
+    }
+
+    fun testTV(key: String): Call<ResultShows> {
+        return Client.retrofit.testTV(key)
     }
 }
