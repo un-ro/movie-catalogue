@@ -19,4 +19,9 @@
     <string name="share">Are you ever watch this movie? The title is %1$s, release at %2$s</string>
     <string name="item_share">Share</string>
 
+    <!-- Language -->
+    <string name="en">English</string>
+    <string name="es">Spanish</string>
+    <string name="fr">French</string>
+    <string name="ko">Korean</string>
 </resources>

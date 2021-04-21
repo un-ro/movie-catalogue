@@ -2,20 +2,21 @@ package com.unero.moviecatalogue.ui.detail
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.unero.moviecatalogue.R
 import com.unero.moviecatalogue.data.model.Movie
 import com.unero.moviecatalogue.data.model.TVShow
 import com.unero.moviecatalogue.databinding.ActivityDetailBinding
-import java.text.SimpleDateFormat
-import java.util.*
+import com.unero.moviecatalogue.util.Detail
 
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
     private var item: Any? = null
     private val imageUrl = "https://image.tmdb.org/t/p/w500"
+    private val detail =  Detail()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +32,11 @@ class DetailActivity : AppCompatActivity() {
         setDataToUI(item)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_detail, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
     private fun setDataToUI(item: Any?) {
         if (item is Movie) {
             with(binding) {
@@ -38,8 +44,8 @@ class DetailActivity : AppCompatActivity() {
                 tvTitle.text = item.title
 
                 tvMeta.text = resources.getString(R.string.meta,
-                    setDateFormat(item.release_date),
-                    item.original_language,
+                    detail.setDateFormat(item.release_date),
+                    detail.setLanguage(item.original_language),
                     if (item.adult) "+18" else "Everyone"
                 )
 
@@ -66,8 +72,8 @@ class DetailActivity : AppCompatActivity() {
                 tvTitle.text = item.original_name
 
                 tvMeta.text = resources.getString(R.string.meta,
-                    setDateFormat(item.first_air_date),
-                    item.original_language,
+                    detail.setDateFormat(item.first_air_date),
+                    detail.setLanguage(item.original_language),
                     if (item.origin_country.isNotEmpty()) item.origin_country[0] else "N/A"
                 )
 
@@ -94,9 +100,9 @@ class DetailActivity : AppCompatActivity() {
     private fun share(item: Any) {
         var shareText = ""
         if (item is Movie) {
-            shareText = getString(R.string.share, item.title, setDateFormat(item.release_date))
+            shareText = getString(R.string.share, item.title, detail.setDateFormat(item.release_date))
         } else if (item is TVShow) {
-            shareText = getString(R.string.share, item.original_name, setDateFormat(item.first_air_date))
+            shareText = getString(R.string.share, item.original_name, detail.setDateFormat(item.first_air_date))
         }
 
         val intent = Intent().apply {
@@ -111,13 +117,5 @@ class DetailActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
-    }
-
-    // Change yyyy-MM-dd -> dd MMMM yyyy
-    private fun setDateFormat(oldDate: String): String {
-        val oldFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-        val newFormat = SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH)
-        val newDate = oldFormat.parse(oldDate)
-        return newFormat.format(newDate ?: oldDate).toString()
     }
 }

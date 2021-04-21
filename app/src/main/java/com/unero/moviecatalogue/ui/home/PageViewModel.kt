@@ -18,6 +18,7 @@ class PageViewModel : ViewModel() {
     // Mutable Live Data
     private var _movies: MutableLiveData<Response<ResultMovie>> = MutableLiveData()
     private var _tv: MutableLiveData<Response<ResultShows>> = MutableLiveData()
+    var errorMsg: MutableLiveData<String> = MutableLiveData()
 
     // Live Data
     val movies: LiveData<Response<ResultMovie>>
@@ -30,23 +31,24 @@ class PageViewModel : ViewModel() {
             return _tv
         }
 
-    // Get
+    // Get Top Movie
     fun topMovies() {
         GlobalScope.launch {
             try {
                 _movies.postValue(Repository.topMovie(api_key))
             } catch (e: Exception) {
-                println(e.toString())
+                errorMsg.postValue(e.message)
             }
         }
     }
 
+    // Get Top TV Show
     fun topTV() {
         GlobalScope.launch {
             try {
                 _tv.postValue(Repository.topTV(api_key))
             } catch (e: Exception) {
-                println(e.toString())
+                errorMsg.postValue(e.message)
             }
         }
     }

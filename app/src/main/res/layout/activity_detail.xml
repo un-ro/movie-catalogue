@@ -25,6 +25,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:navigationIconTint="@color/tab_indicator"
             app:menu="@menu/menu_detail"/>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -72,8 +73,8 @@
         app:layout_constraintTop_toBottomOf="@id/tv_meta"
         app:layout_constraintEnd_toEndOf="@id/tv_meta"
         android:layout_marginTop="8dp"
-        android:progressTint="@color/red"
-        android:progressBackgroundTint="@color/golden"
+        android:progressTint="@color/star"
+        android:progressBackgroundTint="@color/star_back"
         android:secondaryProgressTint="@color/white"/>
 
     <TextView
