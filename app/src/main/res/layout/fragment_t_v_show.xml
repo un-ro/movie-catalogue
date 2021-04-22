@@ -7,7 +7,7 @@
     tools:context=".ui.home.tabs.tv.TVShowFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_movie"
+        android:id="@+id/rv_tv"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"

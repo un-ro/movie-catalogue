@@ -4,7 +4,6 @@ import com.unero.moviecatalogue.data.api.Repository
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,13 +20,6 @@ class PageViewModelTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         server.start()
-    }
-
-    // Test read json
-    @Test
-    fun `sample success json`(){
-        val reader = FileTestRead("movie.json")
-        assertNotNull(reader.content)
     }
 
     // Movies
