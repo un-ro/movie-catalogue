@@ -72,7 +72,7 @@ class DetailActivity : AppCompatActivity() {
                 tvTitle.text = item.title
 
                 tvMeta.text = resources.getString(R.string.meta,
-                    detail.setDateFormat(item.title),
+                    detail.setDateFormat(item.date),
                     detail.setLanguage(item.language),
                     if (item.country.isNotEmpty()) item.country[0] else "N/A"
                 )
