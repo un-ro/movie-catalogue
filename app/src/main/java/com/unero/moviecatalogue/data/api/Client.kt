@@ -16,8 +16,4 @@ object Client {
 
         retrofit
     }
-
-//    val endpoint: Endpoint by lazy {
-//        retrofit.create(Endpoint::class.java)
-//    }
 }

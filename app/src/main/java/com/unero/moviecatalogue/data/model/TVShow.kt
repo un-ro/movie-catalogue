@@ -1,16 +1,23 @@
 package com.unero.moviecatalogue.data.model
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class TVShow(
     val id: Int,
-    val original_name: String,
+    @SerializedName("original_name")
+    val title: String,
     val overview: String,
-    val first_air_date: String,
-    val vote_average: Float,
-    val poster_path: String,
-    val origin_country: List<String>,
-    val original_language: String
+    @SerializedName("first_air_date")
+    val date: String,
+    @SerializedName("vote_average")
+    val rate: Float,
+    @SerializedName("poster_path")
+    val poster: String,
+    @SerializedName("origin_country")
+    val country: List<String>,
+    @SerializedName("original_language")
+    val language: String
 ): Parcelable

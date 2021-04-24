@@ -44,12 +44,12 @@ class DetailActivity : AppCompatActivity() {
                 tvTitle.text = item.title
 
                 tvMeta.text = resources.getString(R.string.meta,
-                    detail.setDateFormat(item.release_date),
-                    detail.setLanguage(item.original_language),
-                    if (item.adult) "+18" else "Everyone"
+                    detail.setDateFormat(item.date),
+                    detail.setLanguage(item.language),
+                    if (item.isAdult) "+18" else "Everyone"
                 )
 
-                rtbRate.rating = item.vote_average / 2
+                rtbRate.rating = item.rate / 2
 
                 tvOverview.text = item.overview
 
@@ -61,23 +61,23 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
             Glide.with(this)
-                .load(imageUrl + item.poster_path)
+                .load(imageUrl + item.poster)
                 .into(binding.ivBackground)
             Glide.with(this)
-                .load(imageUrl + item.poster_path)
+                .load(imageUrl + item.poster)
                 .into(binding.ivPoster)
         } else if (item is TVShow) {
             with(binding) {
                 toolbar.title = "TV Show"
-                tvTitle.text = item.original_name
+                tvTitle.text = item.title
 
                 tvMeta.text = resources.getString(R.string.meta,
-                    detail.setDateFormat(item.first_air_date),
-                    detail.setLanguage(item.original_language),
-                    if (item.origin_country.isNotEmpty()) item.origin_country[0] else "N/A"
+                    detail.setDateFormat(item.title),
+                    detail.setLanguage(item.language),
+                    if (item.country.isNotEmpty()) item.country[0] else "N/A"
                 )
 
-                rtbRate.rating = item.vote_average / 2
+                rtbRate.rating = item.rate / 2
 
                 tvOverview.text = item.overview
 
@@ -89,10 +89,10 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
             Glide.with(this)
-                .load(imageUrl + item.poster_path)
+                .load(imageUrl + item.poster)
                 .into(binding.ivBackground)
             Glide.with(this)
-                .load(imageUrl + item.poster_path)
+                .load(imageUrl + item.poster)
                 .into(binding.ivPoster)
         }
     }
@@ -100,9 +100,9 @@ class DetailActivity : AppCompatActivity() {
     private fun share(item: Any) {
         var shareText = ""
         if (item is Movie) {
-            shareText = getString(R.string.share, item.title, detail.setDateFormat(item.release_date))
+            shareText = getString(R.string.share, item.title, detail.setDateFormat(item.date))
         } else if (item is TVShow) {
-            shareText = getString(R.string.share, item.original_name, detail.setDateFormat(item.first_air_date))
+            shareText = getString(R.string.share, item.title, detail.setDateFormat(item.date))
         }
 
         val intent = Intent().apply {

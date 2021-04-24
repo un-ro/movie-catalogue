@@ -16,10 +16,10 @@ class MovieViewHolder(private val binding: ItemBinding): RecyclerView.ViewHolder
     fun bind(movie: Movie) {
         binding.apply {
             tvTitle.text = setTitle(movie.title)
-            tvRelease.text = setDateFormat(movie.release_date)
+            tvRelease.text = setDateFormat(movie.date)
 
             Glide.with(binding.root)
-                    .load(imageUrl + movie.poster_path)
+                    .load(imageUrl + movie.poster)
                     .into(ivPoster)
 
             root.setOnClickListener {

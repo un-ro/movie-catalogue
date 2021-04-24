@@ -1,6 +1,7 @@
 package com.unero.moviecatalogue.data.model
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -8,9 +9,14 @@ data class Movie(
     val id: Int,
     val title: String,
     val overview: String,
-    val release_date: String,
-    val poster_path: String,
-    val vote_average: Float,
-    val original_language: String,
-    val adult: Boolean
+    @SerializedName("release_date")
+    val date: String,
+    @SerializedName("poster_path")
+    val poster: String,
+    @SerializedName("vote_average")
+    val rate: Float,
+    @SerializedName("original_language")
+    val language: String,
+    @SerializedName("adult")
+    val isAdult: Boolean
 ): Parcelable
