@@ -8,7 +8,7 @@
 - All Stack Sub 1
 - Repository
 - LiveData
-- Test: Idling Resources
+- Test: Idling Resources, Repository + DI Test
 
 ### Stack Sub 3:
 - All Stack Sub 2
