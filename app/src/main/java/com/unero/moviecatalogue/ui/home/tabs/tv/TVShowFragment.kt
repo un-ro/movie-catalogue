@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.unero.moviecatalogue.databinding.FragmentTVShowBinding
-import com.unero.moviecatalogue.ui.home.PageViewModel
+import com.unero.moviecatalogue.viewmodel.SharedViewModel
 
 class TVShowFragment : Fragment() {
 
     private lateinit var binding: FragmentTVShowBinding
-    private val viewModel: PageViewModel by viewModels ({ requireActivity() })
+    private val viewModel: SharedViewModel by viewModels ({ requireActivity() })
     private lateinit var tvAdapter: TVAdapter
 
     override fun onCreateView(

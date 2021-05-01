@@ -1,6 +1,6 @@
 package com.unero.moviecatalogue
 
-import com.unero.moviecatalogue.data.api.Repository
+import com.unero.moviecatalogue.data.remote.Repository
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -11,7 +11,7 @@ import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class PageViewModelTest {
+class SharedViewModelTest {
 
     private val api_key = BuildConfig.KEY
     private val server = MockWebServer()

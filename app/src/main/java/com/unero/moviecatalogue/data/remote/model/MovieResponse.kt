@@ -1,10 +1,9 @@
-package com.unero.moviecatalogue.data.model
+package com.unero.moviecatalogue.data.remote.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
 data class MovieResponse(
 
 	@field:SerializedName("page")
@@ -18,7 +17,7 @@ data class MovieResponse(
 
 	@field:SerializedName("total_results")
 	val totalResults: Int
-) : Parcelable
+)
 
 @Parcelize
 data class Movie(

@@ -1,4 +1,4 @@
-package com.unero.moviecatalogue.data.api
+package com.unero.moviecatalogue.data.remote
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

@@ -3,7 +3,7 @@ package com.unero.moviecatalogue.ui.home.tabs.movie
 import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.unero.moviecatalogue.data.model.Movie
+import com.unero.moviecatalogue.data.remote.model.Movie
 import com.unero.moviecatalogue.databinding.ItemBinding
 import com.unero.moviecatalogue.ui.detail.DetailActivity
 import com.unero.moviecatalogue.util.Formatter.setDateFormat

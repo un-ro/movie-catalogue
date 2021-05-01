@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.unero.moviecatalogue.databinding.FragmentMovieBinding
-import com.unero.moviecatalogue.ui.home.PageViewModel
+import com.unero.moviecatalogue.viewmodel.SharedViewModel
 
 class MovieFragment : Fragment() {
 
     private lateinit var binding: FragmentMovieBinding
-    private val viewModel: PageViewModel by viewModels({ requireActivity() })
+    private val viewModel: SharedViewModel by viewModels({ requireActivity() })
     private lateinit var movieAdapter: MovieAdapter
 
     override fun onCreateView(

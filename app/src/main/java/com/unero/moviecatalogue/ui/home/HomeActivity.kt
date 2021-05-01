@@ -6,11 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.unero.moviecatalogue.databinding.ActivityHomeBinding
+import com.unero.moviecatalogue.viewmodel.SharedViewModel
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
-    private lateinit var viewModel: PageViewModel
+    private lateinit var viewModel: SharedViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +53,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupData() {
-        viewModel = ViewModelProvider(this).get(PageViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
 
         // Fetch from API
         viewModel.topMovies()

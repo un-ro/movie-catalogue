@@ -1,16 +1,21 @@
 package com.unero.moviecatalogue.ui.detail
 
 import android.content.Intent
+import android.graphics.text.LineBreaker.JUSTIFICATION_MODE_INTER_WORD
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.unero.moviecatalogue.R
-import com.unero.moviecatalogue.data.model.Movie
-import com.unero.moviecatalogue.data.model.TVShow
+import com.unero.moviecatalogue.data.remote.model.Movie
+import com.unero.moviecatalogue.data.remote.model.TVShow
 import com.unero.moviecatalogue.databinding.ActivityDetailBinding
+import com.unero.moviecatalogue.databinding.ItemChipBinding
 import com.unero.moviecatalogue.util.Formatter.setDateFormat
 import com.unero.moviecatalogue.util.Formatter.setLanguage
+import com.unero.moviecatalogue.viewmodel.SharedViewModel
 
 class DetailActivity : AppCompatActivity() {
 
@@ -30,6 +35,51 @@ class DetailActivity : AppCompatActivity() {
         item = intent.getParcelableExtra("item")
 
         setDataToUI(item)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            binding.tvOverview.justificationMode = JUSTIFICATION_MODE_INTER_WORD
+        }
+
+        coba()
+    }
+
+    private fun coba() {
+        val vm = ViewModelProvider(this)[SharedViewModel::class.java]
+        vm.getGenres()
+
+        if (item is Movie) {
+            vm.genreMovies.observe(this, {
+                if (it.isSuccessful) {
+                    val list = it.body()?.genres
+                    (item as? Movie)?.genreIds?.forEach { movie ->
+                        list?.forEach { genre ->
+                            if (movie == genre.id) {
+                                addGenre(genre.name)
+                            }
+                        }
+                    }
+                }
+            })
+        } else if (item is TVShow) {
+            vm.genreTV.observe(this, {
+                if (it.isSuccessful) {
+                    val list = it.body()?.genres
+                    (item as TVShow).genreIds.forEach { movie ->
+                        list?.forEach { genre ->
+                            if (movie == genre.id) {
+                                addGenre(genre.name)
+                            }
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    private fun addGenre(name: String) {
+        val itemChip = ItemChipBinding.inflate(layoutInflater)
+        itemChip.chip1.text = name
+        binding.cgGenres.addView(itemChip.chip1)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
