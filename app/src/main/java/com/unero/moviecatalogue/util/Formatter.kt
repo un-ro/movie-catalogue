@@ -14,6 +14,7 @@ object Formatter {
             "fr" -> "French"
             "ko" -> "Korean"
             "es" -> "Spanish"
+            "ja" -> "Japanese"
             else -> "N/A"
         }
     }
