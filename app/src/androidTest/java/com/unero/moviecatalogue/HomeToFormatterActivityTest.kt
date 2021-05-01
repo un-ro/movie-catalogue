@@ -24,7 +24,7 @@ import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class HomeToDetailActivityTest {
+class HomeToFormatterActivityTest {
 
     @Rule
     @JvmField

@@ -4,7 +4,7 @@ import android.content.res.Resources
 import java.text.SimpleDateFormat
 import java.util.*
 
-class Detail {
+object Formatter {
     private val res = Resources.getSystem()
 
     // en -> English, etc
@@ -24,5 +24,17 @@ class Detail {
         val newFormat = SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH)
         val newDate = oldFormat.parse(oldDate)
         return newFormat.format(newDate ?: oldDate).toString()
+    }
+
+    // Prevent long Movie title
+    fun setTitle(title: String): String {
+        return if (title.length >= 25) {
+            StringBuilder()
+                .append(title.take(25))
+                .append("...")
+                .toString()
+        } else {
+            title
+        }
     }
 }

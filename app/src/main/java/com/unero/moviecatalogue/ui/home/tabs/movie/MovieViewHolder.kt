@@ -6,8 +6,8 @@ import com.bumptech.glide.Glide
 import com.unero.moviecatalogue.data.model.Movie
 import com.unero.moviecatalogue.databinding.ItemBinding
 import com.unero.moviecatalogue.ui.detail.DetailActivity
-import java.text.SimpleDateFormat
-import java.util.*
+import com.unero.moviecatalogue.util.Formatter.setDateFormat
+import com.unero.moviecatalogue.util.Formatter.setTitle
 
 class MovieViewHolder(private val binding: ItemBinding): RecyclerView.ViewHolder(binding.root) {
 
@@ -28,24 +28,5 @@ class MovieViewHolder(private val binding: ItemBinding): RecyclerView.ViewHolder
                 itemView.context.startActivity(intent)
             }
         }
-    }
-
-    private fun setTitle(title: String): String {
-        return if (title.length >= 25) {
-            StringBuilder()
-                    .append(title.take(25))
-                    .append("...")
-                    .toString()
-        } else {
-            title
-        }
-    }
-
-    // Change yyyy-MM-dd -> dd MMMM yyyy
-    private fun setDateFormat(oldDate: String): String {
-        val oldFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-        val newFormat = SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH)
-        val newDate = oldFormat.parse(oldDate)
-        return newFormat.format(newDate ?: oldDate).toString()
     }
 }

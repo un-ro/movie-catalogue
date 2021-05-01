@@ -9,14 +9,14 @@ import com.unero.moviecatalogue.R
 import com.unero.moviecatalogue.data.model.Movie
 import com.unero.moviecatalogue.data.model.TVShow
 import com.unero.moviecatalogue.databinding.ActivityDetailBinding
-import com.unero.moviecatalogue.util.Detail
+import com.unero.moviecatalogue.util.Formatter.setDateFormat
+import com.unero.moviecatalogue.util.Formatter.setLanguage
 
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
     private var item: Any? = null
     private val imageUrl = "https://image.tmdb.org/t/p/w500"
-    private val detail =  Detail()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +44,8 @@ class DetailActivity : AppCompatActivity() {
                 tvTitle.text = item.title
 
                 tvMeta.text = resources.getString(R.string.meta,
-                    detail.setDateFormat(item.date),
-                    detail.setLanguage(item.language),
+                    setDateFormat(item.date),
+                    setLanguage(item.language),
                     if (item.isAdult) "+18" else "Everyone"
                 )
 
@@ -72,8 +72,8 @@ class DetailActivity : AppCompatActivity() {
                 tvTitle.text = item.title
 
                 tvMeta.text = resources.getString(R.string.meta,
-                    detail.setDateFormat(item.date),
-                    detail.setLanguage(item.language),
+                    setDateFormat(item.date),
+                    setLanguage(item.language),
                     if (item.country.isNotEmpty()) item.country[0] else "N/A"
                 )
 
@@ -100,9 +100,9 @@ class DetailActivity : AppCompatActivity() {
     private fun share(item: Any) {
         var shareText = ""
         if (item is Movie) {
-            shareText = getString(R.string.share, item.title, detail.setDateFormat(item.date))
+            shareText = getString(R.string.share, item.title, setDateFormat(item.date))
         } else if (item is TVShow) {
-            shareText = getString(R.string.share, item.title, detail.setDateFormat(item.date))
+            shareText = getString(R.string.share, item.title, setDateFormat(item.date))
         }
 
         val intent = Intent().apply {

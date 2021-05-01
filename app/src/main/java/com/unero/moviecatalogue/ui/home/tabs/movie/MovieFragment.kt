@@ -5,20 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.unero.moviecatalogue.databinding.FragmentMovieBinding
 import com.unero.moviecatalogue.ui.home.PageViewModel
 
 class MovieFragment : Fragment() {
 
     private lateinit var binding: FragmentMovieBinding
-    private lateinit var viewModel: PageViewModel
+    private val viewModel: PageViewModel by viewModels({ requireActivity() })
     private lateinit var movieAdapter: MovieAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity()).get(PageViewModel::class.java)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
