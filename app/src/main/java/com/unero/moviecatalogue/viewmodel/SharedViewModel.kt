@@ -9,6 +9,7 @@ import com.unero.moviecatalogue.data.Repository
 import com.unero.moviecatalogue.data.remote.response.GenresItem
 import com.unero.moviecatalogue.data.remote.response.Movie
 import com.unero.moviecatalogue.data.remote.response.TVShow
+import com.unero.moviecatalogue.util.EspressoIdlingResources
 import com.unero.moviecatalogue.util.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,10 +35,12 @@ class SharedViewModel(private val repository: Repository) : ViewModel() {
     // Get Top Movie
     fun topMovies() {
         viewModelScope.launch(Dispatchers.IO) {
+            EspressoIdlingResources.increment()
             showLoading.postValue(true)
             try {
                 val response = repository.topMovie(apiKey)
                 if (response.isSuccessful) {
+                    EspressoIdlingResources.decrement()
                     showLoading.postValue(false)
                     _movies.postValue(response.body()?.results)
                 } else {
@@ -56,6 +59,7 @@ class SharedViewModel(private val repository: Repository) : ViewModel() {
 
     fun getGenres() {
         viewModelScope.launch(Dispatchers.IO) {
+            EspressoIdlingResources.increment()
             showLoading.postValue(true)
             try {
                 /**
@@ -65,6 +69,7 @@ class SharedViewModel(private val repository: Repository) : ViewModel() {
                 val rgm = repository.genreMovie(apiKey)
                 val rgt = repository.genreTV(apiKey)
                 if (rgm.isSuccessful && rgt.isSuccessful) {
+                    EspressoIdlingResources.decrement()
                     showLoading.postValue(false)
                     _genresM.postValue(rgm.body()?.genres)
                     _genresTV.postValue(rgt.body()?.genres)
@@ -85,10 +90,12 @@ class SharedViewModel(private val repository: Repository) : ViewModel() {
     // Get Top TV Show
     fun topTV() {
         viewModelScope.launch(Dispatchers.IO) {
+            EspressoIdlingResources.increment()
             showLoading.postValue(true)
             try {
                 val response = repository.topTV(apiKey)
                 if (response.isSuccessful) {
+                    EspressoIdlingResources.decrement()
                     showLoading.postValue(false)
                     _tv.postValue(response.body()?.results)
                 } else {
