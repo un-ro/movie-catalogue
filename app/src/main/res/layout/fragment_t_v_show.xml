@@ -6,6 +6,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.home.tabs.tv.TVShowFragment">
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        app:shimmer_repeat_mode="reverse"
+        app:shimmer_base_color="@color/shimmer"
+        app:shimmer_repeat_count="3"
+        app:shimmer_auto_start="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/placeholder_shimmer" />
+            <include layout="@layout/placeholder_shimmer" />
+            <include layout="@layout/placeholder_shimmer" />
+            <include layout="@layout/placeholder_shimmer" />
+            <include layout="@layout/placeholder_shimmer" />
+            <include layout="@layout/placeholder_shimmer" />
+            <include layout="@layout/placeholder_shimmer" />
+            <include layout="@layout/placeholder_shimmer" />
+            <include layout="@layout/placeholder_shimmer" />
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_tv"
         android:layout_width="0dp"
@@ -20,15 +47,29 @@
         app:spanCount="2"
         tools:listitem="@layout/item" />
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        style="?android:attr/progressBarStyle"
+    <ImageView
+        android:id="@+id/icon_error"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:visibility="gone"
+        android:src="@drawable/ic_warning"
+        app:layout_constraintBottom_toTopOf="@id/btn_error"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/warning_icon" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/refresh"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:icon="@drawable/ic_refresh"
+        app:iconTint="@color/black"
+        android:backgroundTint="@color/tab_background"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

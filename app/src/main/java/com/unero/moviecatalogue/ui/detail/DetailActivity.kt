@@ -1,9 +1,8 @@
 package com.unero.moviecatalogue.ui.detail
 
 import android.content.Intent
-import android.graphics.text.LineBreaker.JUSTIFICATION_MODE_INTER_WORD
-import android.os.Build
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -35,15 +34,12 @@ class DetailActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        // Receive data from parcel
         item = intent.getParcelableExtra("item")
 
         setDataToUI(item)
 
-        // Overview text get justify
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            binding.tvOverview.justificationMode = JUSTIFICATION_MODE_INTER_WORD
-        }
-
+        // Create Chip View
         setGenres()
     }
 
@@ -85,7 +81,11 @@ class DetailActivity : AppCompatActivity() {
                     if (item.isAdult) "+18" else "Everyone"
                 )
                 rtbRate.rating = item.rate / 2
-                tvOverview.text = item.overview
+                // Overview Text
+                binding.tvOverview.apply {
+                    text = item.overview
+                    movementMethod = ScrollingMovementMethod.getInstance()
+                }
 
                 toolbar.setOnMenuItemClickListener {
                     if (it.itemId == R.id.item_share) {
@@ -121,11 +121,9 @@ class DetailActivity : AppCompatActivity() {
             }
             Glide.with(this)
                 .load(imageUrl + item.poster)
-                .placeholder(R.drawable.layer_front_bg)
                 .into(binding.ivBackground)
             Glide.with(this)
                 .load(imageUrl + item.poster)
-                .placeholder(R.drawable.layer_front_bg)
                 .into(binding.ivPoster)
         }
     }

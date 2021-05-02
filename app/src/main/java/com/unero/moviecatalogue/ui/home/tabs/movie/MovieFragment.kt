@@ -35,7 +35,6 @@ class MovieFragment : Fragment() {
 
         viewModel.movies.observe(viewLifecycleOwner, {
             if (it.isNotEmpty()) {
-                binding.progressBar.visibility = View.GONE
                 movieAdapter.setMovies(it)
                 movieAdapter.notifyDataSetChanged()
             } else {
@@ -46,9 +45,44 @@ class MovieFragment : Fragment() {
         viewModel.errorMsg.observe(viewLifecycleOwner, {
             showMessage(it)
         })
+
+        viewModel.showLoading.observe(viewLifecycleOwner, {
+            binding.shimmerFrameLayout.apply {
+                if (!it) {
+                    stopShimmer()
+                    visibility = View.GONE
+                }
+            }
+        })
+
+        binding.btnError.setOnClickListener {
+            retry()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.shimmerFrameLayout.startShimmer()
+    }
+
+    override fun onPause() {
+        binding.shimmerFrameLayout.stopShimmer()
+        super.onPause()
+    }
+
+    private fun retry() {
+        viewModel.topMovies()
+        binding.apply {
+            iconError.visibility = View.GONE
+            btnError.visibility = View.GONE
+        }
     }
 
     private fun showMessage(message: String) {
+        binding.apply {
+            iconError.visibility = View.VISIBLE
+            btnError.visibility = View.VISIBLE
+        }
         Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 

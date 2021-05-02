@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,10 +12,7 @@
         android:layout_width="160dp"
         android:layout_height="160dp"
         android:src="@mipmap/logo_round"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_gravity="center"
         android:contentDescription="@string/splash_content_description" />
 
     <TextView
@@ -23,12 +20,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto"
-        android:textSize="50sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:text="@string/app_name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_appLogo"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_anchor="@id/iv_appLogo"
+        app:layout_anchorGravity="center|bottom"
+        android:layout_gravity="center|bottom"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/version"
+        android:fontFamily="@font/roboto"
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:layout_gravity="center|bottom"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

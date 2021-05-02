@@ -23,6 +23,7 @@ class SharedViewModel(private val repository: Repository) : ViewModel() {
     private var _genresM = MutableLiveData<List<GenresItem>>()
     private var _genresTV = MutableLiveData<List<GenresItem>>()
     val errorMsg = SingleLiveEvent<String>()
+    val showLoading = MutableLiveData<Boolean>()
 
     // Live Data
     val movies: LiveData<List<Movie>> get() = _movies
@@ -33,17 +34,21 @@ class SharedViewModel(private val repository: Repository) : ViewModel() {
     // Get Top Movie
     fun topMovies() {
         viewModelScope.launch(Dispatchers.IO) {
+            showLoading.postValue(true)
             try {
                 val response = repository.topMovie(apiKey)
                 if (response.isSuccessful) {
+                    showLoading.postValue(false)
                     _movies.postValue(response.body()?.results)
                 } else {
+                    showLoading.postValue(false)
                     errorMsg.postValue(messageTemplate(
                         response.code(),
                         response.errorBody().toString()
                     ))
                 }
             } catch (e: Exception) {
+                showLoading.postValue(false)
                 errorMsg.postValue(e.message)
             }
         }
@@ -51,6 +56,7 @@ class SharedViewModel(private val repository: Repository) : ViewModel() {
 
     fun getGenres() {
         viewModelScope.launch(Dispatchers.IO) {
+            showLoading.postValue(true)
             try {
                 /**
                  * rgm -> Response Genre Movie
@@ -59,15 +65,18 @@ class SharedViewModel(private val repository: Repository) : ViewModel() {
                 val rgm = repository.genreMovie(apiKey)
                 val rgt = repository.genreTV(apiKey)
                 if (rgm.isSuccessful && rgt.isSuccessful) {
+                    showLoading.postValue(false)
                     _genresM.postValue(rgm.body()?.genres)
                     _genresTV.postValue(rgt.body()?.genres)
                 } else {
+                    showLoading.postValue(false)
                     errorMsg.postValue(messageTemplate(
                         rgm.code(),
                         rgm.errorBody().toString()
                     ))
                 }
             } catch (e: Exception) {
+                showLoading.postValue(false)
                 errorMsg.postValue(e.message)
             }
         }
@@ -76,17 +85,21 @@ class SharedViewModel(private val repository: Repository) : ViewModel() {
     // Get Top TV Show
     fun topTV() {
         viewModelScope.launch(Dispatchers.IO) {
+            showLoading.postValue(true)
             try {
                 val response = repository.topTV(apiKey)
                 if (response.isSuccessful) {
+                    showLoading.postValue(false)
                     _tv.postValue(response.body()?.results)
                 } else {
+                    showLoading.postValue(false)
                     errorMsg.postValue(messageTemplate(
                         response.code(),
                         response.errorBody().toString()
                     ))
                 }
             } catch (e: Exception) {
+                showLoading.postValue(false)
                 errorMsg.postValue(e.message)
             }
         }

@@ -21,6 +21,7 @@ class TVViewHolder(private val binding: ItemBinding) : RecyclerView.ViewHolder(b
 
             Glide.with(binding.root)
                     .load(imageUrl + tvShow.poster)
+                    .placeholder(R.drawable.placeholder_poster)
                     .into(ivPoster)
 
             root.setOnClickListener {

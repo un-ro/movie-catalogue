@@ -21,6 +21,7 @@ class MovieViewHolder(private val binding: ItemBinding): RecyclerView.ViewHolder
 
             Glide.with(binding.root)
                     .load(imageUrl + movie.poster)
+                    .placeholder(R.drawable.placeholder_poster)
                     .into(ivPoster)
 
             root.setOnClickListener {
