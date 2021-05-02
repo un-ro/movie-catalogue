@@ -24,4 +24,7 @@
     <string name="es">Spanish</string>
     <string name="fr">French</string>
     <string name="ko">Korean</string>
+
+    <!-- URL -->
+    <string name="imageUrl">https://image.tmdb.org/t/p/w500</string>
 </resources>

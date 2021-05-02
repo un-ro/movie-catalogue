@@ -3,7 +3,7 @@ package com.unero.moviecatalogue.ui.home.tabs.movie
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.unero.moviecatalogue.data.remote.model.Movie
+import com.unero.moviecatalogue.data.remote.response.Movie
 import com.unero.moviecatalogue.databinding.ItemBinding
 
 class MovieAdapter: RecyclerView.Adapter<MovieViewHolder>() {

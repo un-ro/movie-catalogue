@@ -3,7 +3,7 @@ package com.unero.moviecatalogue.ui.home.tabs.tv
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.unero.moviecatalogue.data.remote.model.TVShow
+import com.unero.moviecatalogue.data.remote.response.TVShow
 import com.unero.moviecatalogue.databinding.ItemBinding
 
 class TVAdapter: RecyclerView.Adapter<TVViewHolder>() {

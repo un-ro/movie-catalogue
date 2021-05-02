@@ -1,8 +1,8 @@
 package com.unero.moviecatalogue.data.remote
 
-import com.unero.moviecatalogue.data.remote.model.GenreResponse
-import com.unero.moviecatalogue.data.remote.model.MovieResponse
-import com.unero.moviecatalogue.data.remote.model.TVResponse
+import com.unero.moviecatalogue.data.remote.response.GenreResponse
+import com.unero.moviecatalogue.data.remote.response.MovieResponse
+import com.unero.moviecatalogue.data.remote.response.TVResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET

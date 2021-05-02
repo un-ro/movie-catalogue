@@ -1,4 +1,4 @@
-package com.unero.moviecatalogue.data.remote.model
+package com.unero.moviecatalogue.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 

@@ -1,6 +1,6 @@
 package com.unero.moviecatalogue
 
-import com.unero.moviecatalogue.data.remote.Repository
+import com.unero.moviecatalogue.data.RepositoryImpl
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -25,14 +25,14 @@ class SharedViewModelTest {
     // Movies
     @Test
     fun `fetch movie and check isSuccessful`() {
-        val response = Repository.testMovie(api_key).execute()
+        val response = RepositoryImpl.testMovie(api_key).execute()
 
         assertEquals(true, response.isSuccessful)
     }
 
     @Test
     fun `check one title in movie`() {
-        val response = Repository.testMovie(api_key).execute()
+        val response = RepositoryImpl.testMovie(api_key).execute()
 
         assertEquals("Godzilla vs. Kong", response.body()?.results?.get(0)?.title)
     }
@@ -40,14 +40,14 @@ class SharedViewModelTest {
     // TVShow
     @Test
     fun `fetch tvShow and check isSuccessful`() {
-        val response = Repository.testTV(api_key).execute()
+        val response = RepositoryImpl.testTV(api_key).execute()
 
         assertEquals(true, response.isSuccessful)
     }
 
     @Test
     fun `check one title in tvshow`() {
-        val response = Repository.testTV(api_key).execute()
+        val response = RepositoryImpl.testTV(api_key).execute()
 
         assertEquals("The Falcon and the Winter Soldier", response.body()?.results?.get(0)?.original_name)
     }
@@ -55,7 +55,7 @@ class SharedViewModelTest {
     // Wrong API Key
     @Test
     fun `false api key`() {
-        val response = Repository.testTV("").execute()
+        val response = RepositoryImpl.testTV("").execute()
 
         assertEquals(false, response.isSuccessful)
     }

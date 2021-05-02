@@ -5,15 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import com.google.android.material.snackbar.Snackbar
 import com.unero.moviecatalogue.databinding.FragmentTVShowBinding
 import com.unero.moviecatalogue.viewmodel.SharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TVShowFragment : Fragment() {
 
     private lateinit var binding: FragmentTVShowBinding
-    private val viewModel: SharedViewModel by viewModels ({ requireActivity() })
+    private val viewModel by viewModel<SharedViewModel>()
     private lateinit var tvAdapter: TVAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.topTV()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,17 +35,22 @@ class TVShowFragment : Fragment() {
         setupRV()
 
         viewModel.tv.observe(viewLifecycleOwner, {
-            if (it.isSuccessful) {
+            if (it.isNotEmpty()) {
                 binding.progressBar.visibility = View.GONE
-                val shows = it.body()?.results
-                if (shows != null) {
-                    tvAdapter.apply {
-                        setShows(shows)
-                        notifyDataSetChanged()
-                    }
-                }
+                tvAdapter.setShows(it)
+                tvAdapter.notifyDataSetChanged()
+            } else {
+                showMessage("Unknown Error")
             }
         })
+
+        viewModel.errorMsg.observe(viewLifecycleOwner, {
+            showMessage(it)
+        })
+    }
+
+    private fun showMessage(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
     private fun setupRV() {

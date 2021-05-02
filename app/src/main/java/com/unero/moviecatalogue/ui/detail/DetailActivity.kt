@@ -6,28 +6,31 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.unero.moviecatalogue.R
-import com.unero.moviecatalogue.data.remote.model.Movie
-import com.unero.moviecatalogue.data.remote.model.TVShow
+import com.unero.moviecatalogue.data.remote.response.Movie
+import com.unero.moviecatalogue.data.remote.response.TVShow
 import com.unero.moviecatalogue.databinding.ActivityDetailBinding
 import com.unero.moviecatalogue.databinding.ItemChipBinding
 import com.unero.moviecatalogue.util.Formatter.setDateFormat
 import com.unero.moviecatalogue.util.Formatter.setLanguage
 import com.unero.moviecatalogue.viewmodel.SharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailActivity : AppCompatActivity() {
 
+    private val viewModel by viewModel<SharedViewModel>()
     private lateinit var binding: ActivityDetailBinding
     private var item: Any? = null
-    private val imageUrl = "https://image.tmdb.org/t/p/w500"
+    private lateinit var imageUrl: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        imageUrl = binding.root.resources.getString(R.string.imageUrl)
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -36,50 +39,34 @@ class DetailActivity : AppCompatActivity() {
 
         setDataToUI(item)
 
+        // Overview text get justify
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             binding.tvOverview.justificationMode = JUSTIFICATION_MODE_INTER_WORD
         }
 
-        coba()
+        setGenres()
     }
 
-    private fun coba() {
-        val vm = ViewModelProvider(this)[SharedViewModel::class.java]
-        vm.getGenres()
+    private fun setGenres() {
+        viewModel.getGenres()
 
         if (item is Movie) {
-            vm.genreMovies.observe(this, {
-                if (it.isSuccessful) {
-                    val list = it.body()?.genres
-                    (item as? Movie)?.genreIds?.forEach { movie ->
-                        list?.forEach { genre ->
-                            if (movie == genre.id) {
-                                addGenre(genre.name)
-                            }
-                        }
-                    }
-                }
+            viewModel.genreMovies.observe(this, {
+                addGenre(viewModel.parseGenre((item as Movie).genreIds, it))
             })
         } else if (item is TVShow) {
-            vm.genreTV.observe(this, {
-                if (it.isSuccessful) {
-                    val list = it.body()?.genres
-                    (item as TVShow).genreIds.forEach { movie ->
-                        list?.forEach { genre ->
-                            if (movie == genre.id) {
-                                addGenre(genre.name)
-                            }
-                        }
-                    }
-                }
+            viewModel.genreTV.observe(this, {
+                addGenre(viewModel.parseGenre((item as TVShow).genreIds, it))
             })
         }
     }
 
-    private fun addGenre(name: String) {
-        val itemChip = ItemChipBinding.inflate(layoutInflater)
-        itemChip.chip1.text = name
-        binding.cgGenres.addView(itemChip.chip1)
+    private fun addGenre(name: List<String>) {
+        name.forEach {
+            val itemChip = ItemChipBinding.inflate(layoutInflater)
+            itemChip.chip1.text = it
+            binding.cgGenres.addView(itemChip.chip1)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -92,15 +79,12 @@ class DetailActivity : AppCompatActivity() {
             with(binding) {
                 toolbar.title = "Movie"
                 tvTitle.text = item.title
-
                 tvMeta.text = resources.getString(R.string.meta,
                     setDateFormat(item.date),
                     setLanguage(item.language),
                     if (item.isAdult) "+18" else "Everyone"
                 )
-
                 rtbRate.rating = item.rate / 2
-
                 tvOverview.text = item.overview
 
                 toolbar.setOnMenuItemClickListener {
@@ -120,15 +104,12 @@ class DetailActivity : AppCompatActivity() {
             with(binding) {
                 toolbar.title = "TV Show"
                 tvTitle.text = item.title
-
                 tvMeta.text = resources.getString(R.string.meta,
                     setDateFormat(item.date),
                     setLanguage(item.language),
                     if (item.country.isNotEmpty()) item.country[0] else "N/A"
                 )
-
                 rtbRate.rating = item.rate / 2
-
                 tvOverview.text = item.overview
 
                 toolbar.setOnMenuItemClickListener {
@@ -140,9 +121,11 @@ class DetailActivity : AppCompatActivity() {
             }
             Glide.with(this)
                 .load(imageUrl + item.poster)
+                .placeholder(R.drawable.layer_front_bg)
                 .into(binding.ivBackground)
             Glide.with(this)
                 .load(imageUrl + item.poster)
+                .placeholder(R.drawable.layer_front_bg)
                 .into(binding.ivPoster)
         }
     }

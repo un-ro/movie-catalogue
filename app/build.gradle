@@ -19,7 +19,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
-        buildConfigField 'String', 'KEY', '"key_api"'
+        buildConfigField 'String', 'KEY', '"1a648fae14d79c95070e3a98bd016516"'
     }
     buildTypes {
         release {
@@ -73,7 +73,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test:rules:1.4.0-alpha06'
 
-    testImplementation 'com.squareup.okhttp3:mockwebserver:4.7.2'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:5.0.0-alpha.2'
 
     testImplementation "org.mockito:mockito-core:$mockito_version"
     androidTestImplementation "org.mockito:mockito-android:$mockito_version"

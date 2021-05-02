@@ -5,36 +5,44 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.unero.moviecatalogue.BuildConfig
-import com.unero.moviecatalogue.data.remote.Repository
-import com.unero.moviecatalogue.data.remote.model.GenreResponse
-import com.unero.moviecatalogue.data.remote.model.MovieResponse
-import com.unero.moviecatalogue.data.remote.model.TVResponse
+import com.unero.moviecatalogue.data.Repository
+import com.unero.moviecatalogue.data.remote.response.GenresItem
+import com.unero.moviecatalogue.data.remote.response.Movie
+import com.unero.moviecatalogue.data.remote.response.TVShow
+import com.unero.moviecatalogue.util.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Response
 
-class SharedViewModel : ViewModel() {
+class SharedViewModel(private val repository: Repository) : ViewModel() {
 
-    private val api_key = BuildConfig.KEY
+    private val apiKey = BuildConfig.KEY
 
     // Mutable Live Data
-    private var _movies: MutableLiveData<Response<MovieResponse>> = MutableLiveData()
-    private var _tv: MutableLiveData<Response<TVResponse>> = MutableLiveData()
-    private var _genresM: MutableLiveData<Response<GenreResponse>> = MutableLiveData()
-    private var _genresTV: MutableLiveData<Response<GenreResponse>> = MutableLiveData()
-    var errorMsg: MutableLiveData<String> = MutableLiveData()
+    private var _movies = MutableLiveData<List<Movie>>()
+    private var _tv = MutableLiveData<List<TVShow>>()
+    private var _genresM = MutableLiveData<List<GenresItem>>()
+    private var _genresTV = MutableLiveData<List<GenresItem>>()
+    val errorMsg = SingleLiveEvent<String>()
 
     // Live Data
-    val movies: LiveData<Response<MovieResponse>> get() = _movies
-    val genreMovies: LiveData<Response<GenreResponse>> get() = _genresM
-    val genreTV: LiveData<Response<GenreResponse>> get() = _genresTV
-    val tv: LiveData<Response<TVResponse>> get() = _tv
+    val movies: LiveData<List<Movie>> get() = _movies
+    val tv: LiveData<List<TVShow>> get() = _tv
+    val genreMovies: LiveData<List<GenresItem>> get() = _genresM
+    val genreTV: LiveData<List<GenresItem>> get() = _genresTV
 
     // Get Top Movie
     fun topMovies() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                _movies.postValue(Repository.topMovie(api_key))
+                val response = repository.topMovie(apiKey)
+                if (response.isSuccessful) {
+                    _movies.postValue(response.body()?.results)
+                } else {
+                    errorMsg.postValue(messageTemplate(
+                        response.code(),
+                        response.errorBody().toString()
+                    ))
+                }
             } catch (e: Exception) {
                 errorMsg.postValue(e.message)
             }
@@ -44,8 +52,21 @@ class SharedViewModel : ViewModel() {
     fun getGenres() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                _genresM.postValue(Repository.genreMovie(api_key))
-                _genresTV.postValue(Repository.genreTV(api_key))
+                /**
+                 * rgm -> Response Genre Movie
+                 * rgt -> Response Genre Tv Show
+                 */
+                val rgm = repository.genreMovie(apiKey)
+                val rgt = repository.genreTV(apiKey)
+                if (rgm.isSuccessful && rgt.isSuccessful) {
+                    _genresM.postValue(rgm.body()?.genres)
+                    _genresTV.postValue(rgt.body()?.genres)
+                } else {
+                    errorMsg.postValue(messageTemplate(
+                        rgm.code(),
+                        rgm.errorBody().toString()
+                    ))
+                }
             } catch (e: Exception) {
                 errorMsg.postValue(e.message)
             }
@@ -56,10 +77,34 @@ class SharedViewModel : ViewModel() {
     fun topTV() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                _tv.postValue(Repository.topTV(api_key))
+                val response = repository.topTV(apiKey)
+                if (response.isSuccessful) {
+                    _tv.postValue(response.body()?.results)
+                } else {
+                    errorMsg.postValue(messageTemplate(
+                        response.code(),
+                        response.errorBody().toString()
+                    ))
+                }
             } catch (e: Exception) {
                 errorMsg.postValue(e.message)
             }
         }
+    }
+
+    fun parseGenre(genreId: List<Int>, genres: List<GenresItem>): List<String> {
+        val name = mutableListOf<String>()
+        genreId.forEach { id ->
+            genres.forEach { genre ->
+                if (id == genre.id) {
+                    name.add(genre.name)
+                }
+            }
+        }
+        return name
+    }
+
+    private fun messageTemplate(code: Int, body: String): String? {
+        return "Error $code - $body"
     }
 }
