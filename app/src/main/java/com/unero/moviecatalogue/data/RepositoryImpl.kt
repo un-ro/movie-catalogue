@@ -7,6 +7,7 @@ import com.unero.moviecatalogue.data.remote.response.TVResponse
 import com.unero.moviecatalogue.util.api.APIResponse
 import com.unero.moviecatalogue.util.api.ResponseUtils.handleApiError
 import com.unero.moviecatalogue.util.api.ResponseUtils.handleSuccess
+import retrofit2.Response
 
 class RepositoryImpl( private val endpoint: Endpoint): Repository {
     override suspend fun topMovie(key: String): APIResponse<MovieResponse> {
@@ -59,5 +60,18 @@ class RepositoryImpl( private val endpoint: Endpoint): Repository {
         } catch (e: Exception) {
             APIResponse.Error(e)
         }
+    }
+
+    // Unit Test API
+    override fun movieTest(key: String): Response<MovieResponse> {
+        return endpoint.testMovie(key).execute()
+    }
+
+    override fun tvTest(key: String): Response<TVResponse> {
+        return endpoint.testTV(key).execute()
+    }
+
+    override fun genreTest(key: String): Response<GenreResponse> {
+        return endpoint.testGenre(key).execute()
     }
 }

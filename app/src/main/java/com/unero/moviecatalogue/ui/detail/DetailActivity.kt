@@ -39,6 +39,8 @@ class DetailActivity : AppCompatActivity() {
 
         setDataToUI(item)
 
+        binding.tvOverview.movementMethod = ScrollingMovementMethod.getInstance()
+
         // Create Chip View
         setGenres()
     }
@@ -81,11 +83,7 @@ class DetailActivity : AppCompatActivity() {
                     if (item.isAdult) "+18" else "Everyone"
                 )
                 rtbRate.rating = item.rate / 2
-                // Overview Text
-                binding.tvOverview.apply {
-                    text = item.overview
-                    movementMethod = ScrollingMovementMethod.getInstance()
-                }
+                tvOverview.text = item.overview
 
                 toolbar.setOnMenuItemClickListener {
                     if (it.itemId == R.id.item_share) {

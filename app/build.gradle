@@ -19,7 +19,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
-        buildConfigField 'String', 'KEY', '"key_api"'
+        buildConfigField 'String', 'KEY', '"1a648fae14d79c95070e3a98bd016516"'
     }
     buildTypes {
         release {

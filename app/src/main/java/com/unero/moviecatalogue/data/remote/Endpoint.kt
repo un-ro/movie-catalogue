@@ -41,4 +41,9 @@ interface Endpoint {
     fun testTV(
         @Query("api_key") key: String
     ): Call<TVResponse>
+
+    @GET("genre/movie/list")
+    fun testGenre(
+            @Query("api_key") key: String
+    ): Call<GenreResponse>
 }
