@@ -2,8 +2,7 @@ package com.unero.moviecatalogue.util
 
 import androidx.test.espresso.idling.CountingIdlingResource
 
-
-object EspressoIdlingResources {
+object IdlingResources {
     private const val RESOURCE = "GLOBAL"
     val idlingResource = CountingIdlingResource(RESOURCE)
 

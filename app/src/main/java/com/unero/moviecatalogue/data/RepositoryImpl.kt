@@ -4,22 +4,22 @@ import com.unero.moviecatalogue.data.remote.Endpoint
 import com.unero.moviecatalogue.data.remote.response.GenreResponse
 import com.unero.moviecatalogue.data.remote.response.MovieResponse
 import com.unero.moviecatalogue.data.remote.response.TVResponse
-import com.unero.moviecatalogue.util.EspressoIdlingResources
+import com.unero.moviecatalogue.util.IdlingResources
 import com.unero.moviecatalogue.util.api.APIResponse
-import com.unero.moviecatalogue.util.api.ResponseUtils.handleApiError
-import com.unero.moviecatalogue.util.api.ResponseUtils.handleSuccess
+import com.unero.moviecatalogue.util.api.ResponseHandler.ifError
+import com.unero.moviecatalogue.util.api.ResponseHandler.ifSuccess
 import retrofit2.Response
 
 class RepositoryImpl( private val endpoint: Endpoint): Repository {
     override suspend fun topMovie(key: String): APIResponse<MovieResponse> {
-        EspressoIdlingResources.increment()
+        IdlingResources.increment()
         return try {
             val response = endpoint.topMovie(key)
             if (response.isSuccessful) {
-                EspressoIdlingResources.decrement()
-                handleSuccess(response)
+                IdlingResources.decrement()
+                ifSuccess(response)
             } else {
-                handleApiError(response)
+                ifError(response)
             }
         } catch (e: Exception) {
             APIResponse.Error(e)
@@ -27,14 +27,14 @@ class RepositoryImpl( private val endpoint: Endpoint): Repository {
     }
 
     override suspend fun topTV(key: String): APIResponse<TVResponse> {
-        EspressoIdlingResources.increment()
+        IdlingResources.increment()
         return try {
             val response = endpoint.topTV(key)
             if (response.isSuccessful) {
-                EspressoIdlingResources.decrement()
-                handleSuccess(response)
+                IdlingResources.decrement()
+                ifSuccess(response)
             } else {
-                handleApiError(response)
+                ifError(response)
             }
         } catch (e: Exception) {
             APIResponse.Error(e)
@@ -42,14 +42,14 @@ class RepositoryImpl( private val endpoint: Endpoint): Repository {
     }
 
     override suspend fun genreMovie(key: String): APIResponse<GenreResponse> {
-        EspressoIdlingResources.increment()
+        IdlingResources.increment()
         return try {
             val response = endpoint.movieGenre(key)
             if (response.isSuccessful) {
-                EspressoIdlingResources.decrement()
-                handleSuccess(response)
+                IdlingResources.decrement()
+                ifSuccess(response)
             } else {
-                handleApiError(response)
+                ifError(response)
             }
         } catch (e: Exception) {
             APIResponse.Error(e)
@@ -60,9 +60,9 @@ class RepositoryImpl( private val endpoint: Endpoint): Repository {
         return try {
             val response = endpoint.tvGenre(key)
             if (response.isSuccessful) {
-                handleSuccess(response)
+                ifSuccess(response)
             } else {
-                handleApiError(response)
+                ifError(response)
             }
         } catch (e: Exception) {
             APIResponse.Error(e)

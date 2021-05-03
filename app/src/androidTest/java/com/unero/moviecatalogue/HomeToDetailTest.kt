@@ -12,9 +12,9 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
-import androidx.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.unero.moviecatalogue.ui.home.HomeActivity
-import com.unero.moviecatalogue.util.EspressoIdlingResources
+import com.unero.moviecatalogue.util.IdlingResources
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
@@ -31,12 +31,12 @@ class HomeToDetailTest {
     @Before
     fun setUp() {
         ActivityScenario.launch(HomeActivity::class.java)
-        IdlingRegistry.getInstance().register(EspressoIdlingResources.idlingResource)
+        IdlingRegistry.getInstance().register(IdlingResources.idlingResource)
     }
 
     @After
     fun tearDown() {
-        IdlingRegistry.getInstance().unregister(EspressoIdlingResources.idlingResource)
+        IdlingRegistry.getInstance().unregister(IdlingResources.idlingResource)
     }
 
     @Test

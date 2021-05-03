@@ -8,9 +8,9 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
-import androidx.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.unero.moviecatalogue.ui.home.HomeActivity
-import com.unero.moviecatalogue.util.EspressoIdlingResources
+import com.unero.moviecatalogue.util.IdlingResources
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -23,12 +23,12 @@ class HomeActivityTest {
     @Before
     fun setUp() {
         ActivityScenario.launch(HomeActivity::class.java)
-        IdlingRegistry.getInstance().register(EspressoIdlingResources.idlingResource)
+        IdlingRegistry.getInstance().register(IdlingResources.idlingResource)
     }
 
     @After
     fun tearDown() {
-        IdlingRegistry.getInstance().unregister(EspressoIdlingResources.idlingResource)
+        IdlingRegistry.getInstance().unregister(IdlingResources.idlingResource)
     }
 
     @Test

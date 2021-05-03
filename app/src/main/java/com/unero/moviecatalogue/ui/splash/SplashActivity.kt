@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.unero.moviecatalogue.databinding.ActivitySplashBinding
 import com.unero.moviecatalogue.ui.home.HomeActivity
-import com.unero.moviecatalogue.util.EspressoIdlingResources
+import com.unero.moviecatalogue.util.IdlingResources
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -23,10 +23,10 @@ class SplashActivity : AppCompatActivity() {
 
         // Delay
         lifecycleScope.launch {
-            EspressoIdlingResources.increment()
+            IdlingResources.increment()
             delay(2500)
             startActivity(intent)
-            EspressoIdlingResources.decrement()
+            IdlingResources.decrement()
             finish()
         }
     }
