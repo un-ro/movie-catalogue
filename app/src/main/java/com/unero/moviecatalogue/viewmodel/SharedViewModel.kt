@@ -9,8 +9,8 @@ import com.unero.moviecatalogue.data.Repository
 import com.unero.moviecatalogue.data.remote.response.GenresItem
 import com.unero.moviecatalogue.data.remote.response.Movie
 import com.unero.moviecatalogue.data.remote.response.TVShow
-import com.unero.moviecatalogue.util.EspressoIdlingResources
 import com.unero.moviecatalogue.util.SingleLiveEvent
+import com.unero.moviecatalogue.util.api.APIResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -34,80 +34,52 @@ class SharedViewModel(private val repository: Repository) : ViewModel() {
 
     // Get Top Movie
     fun topMovies() {
+        showLoading.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
-            EspressoIdlingResources.increment()
-            showLoading.postValue(true)
-            try {
-                val response = repository.topMovie(apiKey)
-                if (response.isSuccessful) {
-                    EspressoIdlingResources.decrement()
-                    showLoading.postValue(false)
-                    _movies.postValue(response.body()?.results)
-                } else {
-                    showLoading.postValue(false)
-                    errorMsg.postValue(messageTemplate(
-                        response.code(),
-                        response.errorBody().toString()
-                    ))
+            val result = repository.topMovie(apiKey)
+            showLoading.postValue(false)
+            when (result) {
+                is APIResponse.Success -> {
+                    _movies.postValue(result.data.results)
                 }
-            } catch (e: Exception) {
-                showLoading.postValue(false)
-                errorMsg.postValue(e.message)
+                is APIResponse.Error -> errorMsg.postValue(result.exception.message)
             }
         }
     }
 
     fun getGenres() {
+        showLoading.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
-            EspressoIdlingResources.increment()
-            showLoading.postValue(true)
-            try {
-                /**
-                 * rgm -> Response Genre Movie
-                 * rgt -> Response Genre Tv Show
-                 */
-                val rgm = repository.genreMovie(apiKey)
-                val rgt = repository.genreTV(apiKey)
-                if (rgm.isSuccessful && rgt.isSuccessful) {
-                    EspressoIdlingResources.decrement()
-                    showLoading.postValue(false)
-                    _genresM.postValue(rgm.body()?.genres)
-                    _genresTV.postValue(rgt.body()?.genres)
-                } else {
-                    showLoading.postValue(false)
-                    errorMsg.postValue(messageTemplate(
-                        rgm.code(),
-                        rgm.errorBody().toString()
-                    ))
+            /**
+             * rgm -> Response Genre Movie
+             * rgt -> Response Genre Tv Show
+             */
+            val rgm = repository.genreMovie(apiKey)
+            val rgt = repository.genreTV(apiKey)
+            showLoading.postValue(false)
+            when (rgm) {
+                is APIResponse.Success -> {
+                    _genresM.postValue(rgm.data.genres)
                 }
-            } catch (e: Exception) {
-                showLoading.postValue(false)
-                errorMsg.postValue(e.message)
+                is APIResponse.Error -> errorMsg.postValue(rgm.exception.message)
             }
+
+            if (rgt is APIResponse.Success)
+                _genresTV.postValue(rgt.data.genres)
         }
     }
 
     // Get Top TV Show
     fun topTV() {
+        showLoading.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
-            EspressoIdlingResources.increment()
-            showLoading.postValue(true)
-            try {
-                val response = repository.topTV(apiKey)
-                if (response.isSuccessful) {
-                    EspressoIdlingResources.decrement()
-                    showLoading.postValue(false)
-                    _tv.postValue(response.body()?.results)
-                } else {
-                    showLoading.postValue(false)
-                    errorMsg.postValue(messageTemplate(
-                        response.code(),
-                        response.errorBody().toString()
-                    ))
+            val result = repository.topTV(apiKey)
+            showLoading.postValue(false)
+            when (result) {
+                is APIResponse.Success -> {
+                    _tv.postValue(result.data.results)
                 }
-            } catch (e: Exception) {
-                showLoading.postValue(false)
-                errorMsg.postValue(e.message)
+                is APIResponse.Error -> errorMsg.postValue(result.exception.message)
             }
         }
     }

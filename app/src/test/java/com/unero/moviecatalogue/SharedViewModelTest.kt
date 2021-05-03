@@ -1,20 +1,41 @@
 package com.unero.moviecatalogue
 
-import com.unero.moviecatalogue.data.RepositoryImpl
+import com.unero.moviecatalogue.data.Repository
+import com.unero.moviecatalogue.di.apiModule
+import com.unero.moviecatalogue.di.repositoryModule
+import com.unero.moviecatalogue.di.viewModelModule
+import com.unero.moviecatalogue.viewmodel.SharedViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.koin.test.KoinTest
+import org.koin.test.KoinTestRule
+import org.koin.test.inject
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class SharedViewModelTest {
+class SharedViewModelTest: KoinTest {
 
-    private val api_key = BuildConfig.KEY
+    private val apiKey = BuildConfig.KEY
     private val server = MockWebServer()
+    val repository by inject<Repository>()
+    val viewModel by inject<SharedViewModel>()
+
+    @get:Rule
+    val koinTestRule = KoinTestRule.create {
+        printLogger()
+        modules(
+                repositoryModule,
+                viewModelModule,
+                apiModule
+        )
+    }
 
     @Before
     fun setUp() {
@@ -22,42 +43,12 @@ class SharedViewModelTest {
         server.start()
     }
 
-    // Movies
     @Test
-    fun `fetch movie and check isSuccessful`() {
-        val response = RepositoryImpl.testMovie(api_key).execute()
-
-        assertEquals(true, response.isSuccessful)
-    }
-
-    @Test
-    fun `check one title in movie`() {
-        val response = RepositoryImpl.testMovie(api_key).execute()
-
-        assertEquals("Godzilla vs. Kong", response.body()?.results?.get(0)?.title)
-    }
-
-    // TVShow
-    @Test
-    fun `fetch tvShow and check isSuccessful`() {
-        val response = RepositoryImpl.testTV(api_key).execute()
-
-        assertEquals(true, response.isSuccessful)
-    }
-
-    @Test
-    fun `check one title in tvshow`() {
-        val response = RepositoryImpl.testTV(api_key).execute()
-
-        assertEquals("The Falcon and the Winter Soldier", response.body()?.results?.get(0)?.original_name)
-    }
-
-    // Wrong API Key
-    @Test
-    fun `false api key`() {
-        val response = RepositoryImpl.testTV("").execute()
-
-        assertEquals(false, response.isSuccessful)
+    suspend fun `asd test`() {
+        return withContext(Dispatchers.Default) {
+            val response = repository.topMovie(apiKey)
+            return@withContext
+        }
     }
 
     @After

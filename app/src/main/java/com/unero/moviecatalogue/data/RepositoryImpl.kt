@@ -4,22 +4,60 @@ import com.unero.moviecatalogue.data.remote.Endpoint
 import com.unero.moviecatalogue.data.remote.response.GenreResponse
 import com.unero.moviecatalogue.data.remote.response.MovieResponse
 import com.unero.moviecatalogue.data.remote.response.TVResponse
-import retrofit2.Response
+import com.unero.moviecatalogue.util.api.APIResponse
+import com.unero.moviecatalogue.util.api.ResponseUtils.handleApiError
+import com.unero.moviecatalogue.util.api.ResponseUtils.handleSuccess
 
-class RepositoryImpl( private val api: Endpoint): Repository {
-    override suspend fun topMovie(key: String): Response<MovieResponse> {
-        return api.topMovie(key)
+class RepositoryImpl( private val endpoint: Endpoint): Repository {
+    override suspend fun topMovie(key: String): APIResponse<MovieResponse> {
+        return try {
+            val response = endpoint.topMovie(key)
+            if (response.isSuccessful) {
+                handleSuccess(response)
+            } else {
+                handleApiError(response)
+            }
+        } catch (e: Exception) {
+            APIResponse.Error(e)
+        }
     }
 
-    override suspend fun topTV(key: String): Response<TVResponse> {
-        return api.topTV(key)
+    override suspend fun topTV(key: String): APIResponse<TVResponse> {
+        return try {
+            val response = endpoint.topTV(key)
+            if (response.isSuccessful) {
+                handleSuccess(response)
+            } else {
+                handleApiError(response)
+            }
+        } catch (e: Exception) {
+            APIResponse.Error(e)
+        }
     }
 
-    override suspend fun genreMovie(key: String): Response<GenreResponse> {
-        return api.movieGenre(key)
+    override suspend fun genreMovie(key: String): APIResponse<GenreResponse> {
+        return try {
+            val response = endpoint.movieGenre(key)
+            if (response.isSuccessful) {
+                handleSuccess(response)
+            } else {
+                handleApiError(response)
+            }
+        } catch (e: Exception) {
+            APIResponse.Error(e)
+        }
     }
 
-    override suspend fun genreTV(key: String): Response<GenreResponse> {
-        return api.tvGenre(key)
+    override suspend fun genreTV(key: String): APIResponse<GenreResponse> {
+        return try {
+            val response = endpoint.tvGenre(key)
+            if (response.isSuccessful) {
+                handleSuccess(response)
+            } else {
+                handleApiError(response)
+            }
+        } catch (e: Exception) {
+            APIResponse.Error(e)
+        }
     }
 }
