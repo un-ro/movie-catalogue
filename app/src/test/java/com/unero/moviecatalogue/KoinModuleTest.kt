@@ -9,6 +9,10 @@ import org.koin.test.check.checkModules
 
 class KoinModuleTest: KoinTest {
 
+    /*
+        Unit Test to check each Koin Module
+     */
+
     @Test
     fun `check modules`() = checkModules {
         modules(

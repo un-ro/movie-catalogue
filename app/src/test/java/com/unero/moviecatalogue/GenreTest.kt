@@ -15,6 +15,10 @@ import kotlin.test.assertNotEquals
 
 class GenreTest: KoinTest {
 
+    /*
+        Unit Test to test generated / manual object with data from API
+     */
+
     private val apiKey = BuildConfig.KEY
     private val repository by inject<Repository>()
     private val fakeDataSuccess = FakeGenre().generateUpdated()

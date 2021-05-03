@@ -4,6 +4,7 @@ import com.unero.moviecatalogue.data.remote.Endpoint
 import com.unero.moviecatalogue.data.remote.response.GenreResponse
 import com.unero.moviecatalogue.data.remote.response.MovieResponse
 import com.unero.moviecatalogue.data.remote.response.TVResponse
+import com.unero.moviecatalogue.util.EspressoIdlingResources
 import com.unero.moviecatalogue.util.api.APIResponse
 import com.unero.moviecatalogue.util.api.ResponseUtils.handleApiError
 import com.unero.moviecatalogue.util.api.ResponseUtils.handleSuccess
@@ -11,9 +12,11 @@ import retrofit2.Response
 
 class RepositoryImpl( private val endpoint: Endpoint): Repository {
     override suspend fun topMovie(key: String): APIResponse<MovieResponse> {
+        EspressoIdlingResources.increment()
         return try {
             val response = endpoint.topMovie(key)
             if (response.isSuccessful) {
+                EspressoIdlingResources.decrement()
                 handleSuccess(response)
             } else {
                 handleApiError(response)
@@ -24,9 +27,11 @@ class RepositoryImpl( private val endpoint: Endpoint): Repository {
     }
 
     override suspend fun topTV(key: String): APIResponse<TVResponse> {
+        EspressoIdlingResources.increment()
         return try {
             val response = endpoint.topTV(key)
             if (response.isSuccessful) {
+                EspressoIdlingResources.decrement()
                 handleSuccess(response)
             } else {
                 handleApiError(response)
@@ -37,9 +42,11 @@ class RepositoryImpl( private val endpoint: Endpoint): Repository {
     }
 
     override suspend fun genreMovie(key: String): APIResponse<GenreResponse> {
+        EspressoIdlingResources.increment()
         return try {
             val response = endpoint.movieGenre(key)
             if (response.isSuccessful) {
+                EspressoIdlingResources.decrement()
                 handleSuccess(response)
             } else {
                 handleApiError(response)

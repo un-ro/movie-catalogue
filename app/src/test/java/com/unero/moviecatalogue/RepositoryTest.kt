@@ -15,6 +15,10 @@ import kotlin.test.assertTrue
 
 class RepositoryTest: KoinTest {
 
+    /*
+        A Unit Test where data get from API
+     */
+
     private val apiKey = BuildConfig.KEY
     private val repository by inject<Repository>()
 

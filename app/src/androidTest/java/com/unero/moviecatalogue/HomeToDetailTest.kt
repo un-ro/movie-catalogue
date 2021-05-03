@@ -17,7 +17,6 @@ import com.unero.moviecatalogue.ui.home.HomeActivity
 import com.unero.moviecatalogue.util.EspressoIdlingResources
 import org.hamcrest.Description
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.TypeSafeMatcher
 import org.junit.After
@@ -42,25 +41,9 @@ class HomeToDetailTest {
 
     @Test
     fun homeToDetail() {
-        Thread.sleep(2500)
-
+        // Home
         onView(withId(R.id.rv_movie)).check(matches(isDisplayed()))
-
-        onView(allOf(withId(R.id.tv_title), withText("Godzilla vs. Kong"),
-                        withParent(withParent(withId(R.id.rv_movie))),
-                        isDisplayed()))
-                .check(matches(withText("Godzilla vs. Kong")))
-
-        onView(allOf(withId(R.id.tv_release), withText("24 March 2021"),
-                        withParent(withParent(withId(R.id.rv_movie))),
-                        isDisplayed()))
-                .check(matches(withText("24 March 2021")))
-
-        onView(allOf(withId(R.id.rv_movie),
-                        childAtPosition(
-                                withClassName(`is`("androidx.constraintlayout.widget.ConstraintLayout")),
-                                0)))
-                .perform(actionOnItemAtPosition<ViewHolder>(0, click()))
+        onView(withId(R.id.rv_movie)).perform(actionOnItemAtPosition<ViewHolder>(0, click()))
 
         // Into Detail Activity
         onView(
@@ -71,23 +54,21 @@ class HomeToDetailTest {
                 .check(matches(withText("Movie")))
 
         onView(withId(R.id.iv_poster)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_title)).check(matches(withText("Godzilla vs. Kong")))
-        onView(withId(R.id.tv_meta)).check(matches(withText("24 March 2021 \t English \t Everyone")))
+        onView(withId(R.id.tv_title)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_meta)).check(matches(isDisplayed()))
         onView(withId(R.id.rtb_rate)).check(matches(isDisplayed()))
-
-        onView(withId(R.id.tv_overview))
-                .check(matches(withText("In a time when monsters walk the Earth, humanity’s fight for its future sets Godzilla and Kong on a collision course that will see the two most powerful forces of nature on the planet collide in a spectacular battle for the ages.")))
+        onView(withId(R.id.cg_genres)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_overview)).check(matches(isDisplayed()))
     }
 
     @Test
     fun homeToDetailToHome() {
         // Home
-        Thread.sleep(2500)
         onView(withId(R.id.rv_movie)).perform(actionOnItemAtPosition<ViewHolder>(0, click()))
 
         // Detail
-        onView(withId(R.id.tv_title)).check(matches(withText("Godzilla vs. Kong")))
-        onView(withId(R.id.tv_meta)).check(matches(withText("24 March 2021 \t English \t Everyone")))
+        onView(withId(R.id.tv_title)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_meta)).check(matches(isDisplayed()))
 
         onView(allOf(withContentDescription("Navigate up"),
                 childAtPosition(allOf(withId(R.id.toolbar),
