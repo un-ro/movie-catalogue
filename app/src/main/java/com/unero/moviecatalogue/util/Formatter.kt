@@ -1,11 +1,9 @@
 package com.unero.moviecatalogue.util
 
-import android.content.res.Resources
 import java.text.SimpleDateFormat
 import java.util.*
 
 object Formatter {
-    private val res = Resources.getSystem()
 
     // en -> English, etc
     fun setLanguage(originalLanguage: String): String {

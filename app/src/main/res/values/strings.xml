@@ -26,7 +26,6 @@
     <string name="ko">Korean</string>
 
     <!-- URL -->
-    <string name="imageUrl">https://image.tmdb.org/t/p/w500</string>
     <string name="refresh">Refresh</string>
     <string name="warning_icon">Warning Icon</string>
     <string name="version">Submission 2.0 | Created by Unero</string>

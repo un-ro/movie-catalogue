@@ -11,6 +11,7 @@ import com.unero.moviecatalogue.data.remote.response.Movie
 import com.unero.moviecatalogue.data.remote.response.TVShow
 import com.unero.moviecatalogue.databinding.ActivityDetailBinding
 import com.unero.moviecatalogue.databinding.ItemChipBinding
+import com.unero.moviecatalogue.util.Constant.POSTER_URL
 import com.unero.moviecatalogue.util.Formatter.setDateFormat
 import com.unero.moviecatalogue.util.Formatter.setLanguage
 import com.unero.moviecatalogue.viewmodel.SharedViewModel
@@ -21,15 +22,12 @@ class DetailActivity : AppCompatActivity() {
     private val viewModel by viewModel<SharedViewModel>()
     private lateinit var binding: ActivityDetailBinding
     private var item: Any? = null
-    private lateinit var imageUrl: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        imageUrl = binding.root.resources.getString(R.string.imageUrl)
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -93,10 +91,10 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
             Glide.with(this)
-                .load(imageUrl + item.poster)
+                .load(POSTER_URL + item.poster)
                 .into(binding.ivBackground)
             Glide.with(this)
-                .load(imageUrl + item.poster)
+                .load(POSTER_URL + item.poster)
                 .into(binding.ivPoster)
         } else if (item is TVShow) {
             with(binding) {
@@ -118,10 +116,10 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
             Glide.with(this)
-                .load(imageUrl + item.poster)
+                .load(POSTER_URL + item.poster)
                 .into(binding.ivBackground)
             Glide.with(this)
-                .load(imageUrl + item.poster)
+                .load(POSTER_URL + item.poster)
                 .into(binding.ivPoster)
         }
     }

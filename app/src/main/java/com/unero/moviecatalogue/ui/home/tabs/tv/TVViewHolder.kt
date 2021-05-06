@@ -7,12 +7,11 @@ import com.unero.moviecatalogue.R
 import com.unero.moviecatalogue.data.remote.response.TVShow
 import com.unero.moviecatalogue.databinding.ItemBinding
 import com.unero.moviecatalogue.ui.detail.DetailActivity
+import com.unero.moviecatalogue.util.Constant.POSTER_URL
 import com.unero.moviecatalogue.util.Formatter.setDateFormat
 import com.unero.moviecatalogue.util.Formatter.setTitle
 
 class TVViewHolder(private val binding: ItemBinding) : RecyclerView.ViewHolder(binding.root) {
-
-    private val imageUrl = itemView.resources.getString(R.string.imageUrl)
 
     fun bind(tvShow: TVShow) {
         binding.apply {
@@ -20,7 +19,7 @@ class TVViewHolder(private val binding: ItemBinding) : RecyclerView.ViewHolder(b
             tvRelease.text = setDateFormat(tvShow.date)
 
             Glide.with(binding.root)
-                    .load(imageUrl + tvShow.poster)
+                    .load(POSTER_URL + tvShow.poster)
                     .placeholder(R.drawable.placeholder_poster)
                     .into(ivPoster)
 
