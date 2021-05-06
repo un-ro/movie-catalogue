@@ -1,26 +1,26 @@
 ## Skenario Unit Test dan Instrumentation Test | Submission 1
 
 ### Unit Test:
-Disini saya menggunakan [API tmdb](https://developers.themoviedb.org/3) untuk datanya.
-1. GenreTest:
-    - check if genres is same
-        - Request ke api dan dibandingkan dengan data manual (Expect: Sukses)
-    - check if genres is different
-        - Request ke api dan dibandingkan dengan data manual (Expect: Gagal)        
-2. KoinModuleTest:
+Disini saya menggunakan [API tmdb](https://developers.themoviedb.org/3) untuk datanya.  
+1. KoinModuleTest:
     - check modules
         - Melakukan cek bahwa module sudah di inject
-3. RepositoryTest:
-    - request api and success
-        - Request api dan sukses
-    - request api and fail
-        - Request api dan gagal karena key tidak sesuai
-    - request movie
-        - Request data movie dan cek bila tidak null
-    - request tv show
-        - Request data tv show dan cek bila tidak null
-    - request tv show but null
-        - Request data tv show dan cek bila null
+2. RepositoryTest:
+    - Get Movie
+        - Request ke api, jika sukses cek tidak null pada data.
+        - Jika Gagal, cek tidak null pada pesan eksepsi.
+    - Get TV Show
+        - Request ke api, jika sukses cek tidak null pada data.
+        - Jika Gagal, cek tidak null pada pesan eksepsi.
+    - Get Movie Genre and check if equal to Generate
+        - Cek apakah data hasil generate dengan data api sama.
+    - Get Movie Genre and check if different to Generate
+        - Cek apakah data hasil generate dengan data api berbeda.
+3. SharedViewModelTest:
+    - Setiap Fungsi
+        - Menjalankan fungsi dan menyimpan value ke MutableLiveData
+        - Observe menggunakan LiveDataUtil
+        - Cek bahwa value LiveData tidak null
         
 ### Instrumentation Test:
 1. Splash
