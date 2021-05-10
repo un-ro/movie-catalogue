@@ -5,6 +5,7 @@
 - ViewModel
 
 ### Stack Sub 2:
+![Submission 2 Review](git_asset/SubDua.png)
 - All Stack Sub 1
 - Repository
 - LiveData
