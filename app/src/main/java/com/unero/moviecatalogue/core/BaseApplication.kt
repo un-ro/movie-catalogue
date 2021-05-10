@@ -3,6 +3,7 @@ package com.unero.moviecatalogue.core
 import android.app.Application
 import com.unero.moviecatalogue.di.apiModule
 import com.unero.moviecatalogue.di.repositoryModule
+import com.unero.moviecatalogue.di.roomModule
 import com.unero.moviecatalogue.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -17,6 +18,7 @@ class BaseApplication: Application() {
             androidContext(this@BaseApplication)
             modules(
                     apiModule,
+                    roomModule,
                     repositoryModule,
                     viewModelModule
             )
