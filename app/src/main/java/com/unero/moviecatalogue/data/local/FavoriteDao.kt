@@ -7,11 +7,11 @@ import androidx.room.*
 interface FavoriteDao {
 
     @Query("SELECT * FROM favorite WHERE type = :type")
-    fun loadFavoriteByType(type: String): LiveData<List<FavoriteEntity>>
+    fun loadFavoriteByType(type: String): LiveData<List<Favorite>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(item: FavoriteEntity)
+    fun insert(item: Favorite)
 
     @Delete
-    fun delete(item: FavoriteEntity)
+    fun delete(item: Favorite)
 }

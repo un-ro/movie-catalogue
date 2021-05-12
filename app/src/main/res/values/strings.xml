@@ -25,4 +25,7 @@
     <string name="warning_icon">Warning Icon</string>
     <string name="version">Submission 2.0 | Created by Unero</string>
     <string name="lorem">lorem ipsum dolor sit amet</string>
+    <string name="title_activity_favorite">FavoriteActivity</string>
+    <string name="cd_fab">Add to Favorite</string>
+    <string name="item_favorite">Favorite Item</string>
 </resources>

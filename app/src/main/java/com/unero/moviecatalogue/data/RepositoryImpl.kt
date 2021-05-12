@@ -1,8 +1,8 @@
 package com.unero.moviecatalogue.data
 
 import androidx.lifecycle.LiveData
+import com.unero.moviecatalogue.data.local.Favorite
 import com.unero.moviecatalogue.data.local.FavoriteDao
-import com.unero.moviecatalogue.data.local.FavoriteEntity
 import com.unero.moviecatalogue.data.remote.Endpoint
 import com.unero.moviecatalogue.data.remote.response.GenreResponse
 import com.unero.moviecatalogue.data.remote.response.MovieResponse
@@ -71,7 +71,7 @@ class RepositoryImpl( private val endpoint: Endpoint, private val dao: FavoriteD
     }
 
     // Room
-    override suspend fun getAllFav(type: String): LiveData<List<FavoriteEntity>> {
+    override suspend fun getAllFav(type: String): LiveData<List<Favorite>> {
         return dao.loadFavoriteByType(type)
     }
 }

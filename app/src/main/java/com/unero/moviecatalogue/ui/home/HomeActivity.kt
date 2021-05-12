@@ -1,8 +1,12 @@
 package com.unero.moviecatalogue.ui.home
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
+import com.unero.moviecatalogue.R
 import com.unero.moviecatalogue.databinding.ActivityHomeBinding
+import com.unero.moviecatalogue.ui.favorite.FavoriteActivity
 
 class HomeActivity : AppCompatActivity() {
 
@@ -20,6 +24,19 @@ class HomeActivity : AppCompatActivity() {
             tabs.setupWithViewPager(binding.vp)
         }
 
+        binding.toolbar.setOnMenuItemClickListener {
+            if (it.itemId == R.id.item_favorite) {
+                val intent = Intent(this, FavoriteActivity::class.java)
+                startActivity(intent)
+                true
+            } else false
+        }
+
         supportActionBar?.elevation = 0f
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_home, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 }
