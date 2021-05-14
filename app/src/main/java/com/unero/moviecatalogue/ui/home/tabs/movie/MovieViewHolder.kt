@@ -12,10 +12,10 @@ import com.unero.moviecatalogue.util.Formatter.setDateFormat
 import com.unero.moviecatalogue.util.Formatter.setTitle
 
 class MovieViewHolder(private val binding: ItemBinding): RecyclerView.ViewHolder(binding.root) {
-
     fun bind(movie: Movie) {
+        movie.type = "movie"
         binding.apply {
-            tvTitle.text = setTitle(movie.title)
+            tvTitle.text = setTitle(movie.originalTitle)
             tvRelease.text = setDateFormat(movie.date)
 
             Glide.with(binding.root)

@@ -9,11 +9,14 @@ import com.unero.moviecatalogue.util.api.APIResponse
 
 interface Repository {
     // Network
-    suspend fun topMovie(key: String): APIResponse<MovieResponse>
-    suspend fun topTV(key: String): APIResponse<TVResponse>
-    suspend fun genreMovie(key: String): APIResponse<GenreResponse>
-    suspend fun genreTV(key: String): APIResponse<GenreResponse>
+    suspend fun topMovie(): APIResponse<MovieResponse>
+    suspend fun topTV(): APIResponse<TVResponse>
+    suspend fun genreMovie(): APIResponse<GenreResponse>
+    suspend fun genreTV(): APIResponse<GenreResponse>
 
     // Room
     suspend fun getAllFav(type: String): LiveData<List<Favorite>>
+    fun searchFavorite(id: Int): LiveData<Favorite>
+    suspend fun add(favorite: Favorite)
+    suspend fun delete(favorite: Favorite)
 }

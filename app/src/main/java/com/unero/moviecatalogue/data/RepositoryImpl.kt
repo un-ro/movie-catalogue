@@ -12,10 +12,10 @@ import com.unero.moviecatalogue.util.api.ResponseHandler.ifError
 import com.unero.moviecatalogue.util.api.ResponseHandler.ifSuccess
 
 class RepositoryImpl( private val endpoint: Endpoint, private val dao: FavoriteDao): Repository {
-    override suspend fun topMovie(key: String): APIResponse<MovieResponse> {
+    override suspend fun topMovie(): APIResponse<MovieResponse> {
 //        IdlingResources.increment()
         return try {
-            val response = endpoint.topMovie(key)
+            val response = endpoint.topMovie()
             if (response.isSuccessful) {
 //                IdlingResources.decrement()
                 ifSuccess(response)
@@ -27,10 +27,10 @@ class RepositoryImpl( private val endpoint: Endpoint, private val dao: FavoriteD
         }
     }
 
-    override suspend fun topTV(key: String): APIResponse<TVResponse> {
+    override suspend fun topTV(): APIResponse<TVResponse> {
 //        IdlingResources.increment()
         return try {
-            val response = endpoint.topTV(key)
+            val response = endpoint.topTV()
             if (response.isSuccessful) {
 //                IdlingResources.decrement()
                 ifSuccess(response)
@@ -42,10 +42,10 @@ class RepositoryImpl( private val endpoint: Endpoint, private val dao: FavoriteD
         }
     }
 
-    override suspend fun genreMovie(key: String): APIResponse<GenreResponse> {
+    override suspend fun genreMovie(): APIResponse<GenreResponse> {
 //        IdlingResources.increment()
         return try {
-            val response = endpoint.movieGenre(key)
+            val response = endpoint.movieGenre()
             if (response.isSuccessful) {
 //                IdlingResources.decrement()
                 ifSuccess(response)
@@ -57,9 +57,9 @@ class RepositoryImpl( private val endpoint: Endpoint, private val dao: FavoriteD
         }
     }
 
-    override suspend fun genreTV(key: String): APIResponse<GenreResponse> {
+    override suspend fun genreTV(): APIResponse<GenreResponse> {
         return try {
-            val response = endpoint.tvGenre(key)
+            val response = endpoint.tvGenre()
             if (response.isSuccessful) {
                 ifSuccess(response)
             } else {
@@ -73,5 +73,17 @@ class RepositoryImpl( private val endpoint: Endpoint, private val dao: FavoriteD
     // Room
     override suspend fun getAllFav(type: String): LiveData<List<Favorite>> {
         return dao.loadFavoriteByType(type)
+    }
+
+    override fun searchFavorite(id: Int): LiveData<Favorite> {
+        return dao.searchFavorite(id)
+    }
+
+    override suspend fun add(favorite: Favorite) {
+        dao.insert(favorite)
+    }
+
+    override suspend fun delete(favorite: Favorite) {
+        dao.delete(favorite)
     }
 }

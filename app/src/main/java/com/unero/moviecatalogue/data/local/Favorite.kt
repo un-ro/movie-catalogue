@@ -7,8 +7,12 @@ import androidx.room.PrimaryKey
 data class Favorite(
     @PrimaryKey
     val id: Int,
+    val originalTitle: String,
     val title: String,
-    val date: String,
+    val language: String,
     val poster: String,
+    val overview: String,
+    val date: String,
+    val rate: Float,
     val type: String
 )

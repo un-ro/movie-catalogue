@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.Menu
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.unero.moviecatalogue.R
@@ -16,6 +17,7 @@ import com.unero.moviecatalogue.util.Formatter.setDateFormat
 import com.unero.moviecatalogue.util.Formatter.setLanguage
 import com.unero.moviecatalogue.viewmodel.SharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 class DetailActivity : AppCompatActivity() {
 
@@ -34,7 +36,6 @@ class DetailActivity : AppCompatActivity() {
 
         // Receive data from parcel
         item = intent.getParcelableExtra("item")
-
         setDataToUI(item)
 
         binding.tvOverview.movementMethod = ScrollingMovementMethod.getInstance()
@@ -73,8 +74,8 @@ class DetailActivity : AppCompatActivity() {
     private fun setDataToUI(item: Any?) {
         if (item is Movie) {
             with(binding) {
-                toolbar.title = "Movie"
-                tvTitle.text = item.title
+                toolbar.title = item.title
+                tvTitle.text = item.originalTitle
                 tvMeta.text = resources.getString(R.string.meta,
                     setDateFormat(item.date),
                     setLanguage(item.language),
@@ -82,6 +83,10 @@ class DetailActivity : AppCompatActivity() {
                 )
                 rtbRate.rating = item.rate / 2
                 tvOverview.text = item.overview
+
+                ivPoster.setOnClickListener {
+                    Toast.makeText(this@DetailActivity, item.title, Toast.LENGTH_SHORT).show()
+                }
 
                 toolbar.setOnMenuItemClickListener {
                     if (it.itemId == R.id.item_share) {
@@ -98,8 +103,8 @@ class DetailActivity : AppCompatActivity() {
                 .into(binding.ivPoster)
         } else if (item is TVShow) {
             with(binding) {
-                toolbar.title = "TV Show"
-                tvTitle.text = item.title
+                toolbar.title = item.title
+                tvTitle.text = item.originalTitle
                 tvMeta.text = resources.getString(R.string.meta,
                     setDateFormat(item.date),
                     setLanguage(item.language),
@@ -107,6 +112,10 @@ class DetailActivity : AppCompatActivity() {
                 )
                 rtbRate.rating = item.rate / 2
                 tvOverview.text = item.overview
+
+                ivPoster.setOnClickListener {
+                    Toast.makeText(this@DetailActivity, item.title, Toast.LENGTH_SHORT).show()
+                }
 
                 toolbar.setOnMenuItemClickListener {
                     if (it.itemId == R.id.item_share) {
@@ -140,6 +149,47 @@ class DetailActivity : AppCompatActivity() {
         val shareIntent = Intent.createChooser(intent, null)
         startActivity(shareIntent)
     }
+
+//    private fun setFAB(){
+//        // Observe status value, change drawable and database action
+//        viewModel.status.observe(this, {
+//            if (it) {
+//                binding.fabFav.apply {
+//                    setImageResource(R.drawable.ic_favorite_filled)
+//                    setOnClickListener {
+//                        viewModel.delete(username)
+//                        viewModel.status.value = false
+//                    }
+//                }
+//            } else {
+//                binding.fabFav.apply {
+//                    setImageResource(R.drawable.ic_favorite)
+//                    setOnClickListener {
+//                        viewModel.add(favorite!!)
+//                        viewModel.status.value = true
+//                    }
+//                }
+//            }
+//        })
+//    }
+
+//    private fun setFABStatus(){
+//        val id = when (item) {
+//            is Movie -> {
+//                (item as Movie).id
+//            }
+//            is TVShow -> {
+//                (item as TVShow).id
+//            }
+//            else -> null
+//        }
+//
+//        if (id != null) {
+//            viewModel.searchFavorite(id).observe(this, {
+//                viewModel.status.value = it != null
+//            })
+//        }
+//    }
 
     override fun onBackPressed() {
         super.onBackPressed()

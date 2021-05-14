@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.unero.moviecatalogue.BuildConfig
 import com.unero.moviecatalogue.data.Repository
+import com.unero.moviecatalogue.data.local.Favorite
 import com.unero.moviecatalogue.data.remote.response.GenresItem
 import com.unero.moviecatalogue.data.remote.response.Movie
 import com.unero.moviecatalogue.data.remote.response.TVShow
@@ -16,14 +16,13 @@ import kotlinx.coroutines.launch
 
 class SharedViewModel(private val repository: Repository) : ViewModel() {
 
-    private val apiKey = BuildConfig.KEY
-
     // Mutable Live Data
     private var _movies = MutableLiveData<List<Movie>>()
     private var _tv = MutableLiveData<List<TVShow>>()
     private var _genresM = MutableLiveData<List<GenresItem>>()
     private var _genresTV = MutableLiveData<List<GenresItem>>()
     val errorMsg = SingleLiveEvent<String>()
+    val status = SingleLiveEvent<Boolean>()
     val showLoading = MutableLiveData<Boolean>()
 
     // Live Data
@@ -37,7 +36,7 @@ class SharedViewModel(private val repository: Repository) : ViewModel() {
 //        IdlingResources.increment()
         showLoading.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
-            val result = repository.topMovie(apiKey)
+            val result = repository.topMovie()
             showLoading.postValue(false)
             when (result) {
                 is APIResponse.Success -> {
@@ -57,8 +56,8 @@ class SharedViewModel(private val repository: Repository) : ViewModel() {
              * rgm -> Response Genre Movie
              * rgt -> Response Genre Tv Show
              */
-            val rgm = repository.genreMovie(apiKey)
-            val rgt = repository.genreTV(apiKey)
+            val rgm = repository.genreMovie()
+            val rgt = repository.genreTV()
             showLoading.postValue(false)
             when (rgm) {
                 is APIResponse.Success -> {
@@ -78,7 +77,7 @@ class SharedViewModel(private val repository: Repository) : ViewModel() {
 //        IdlingResources.increment()
         showLoading.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
-            val result = repository.topTV(apiKey)
+            val result = repository.topTV()
             showLoading.postValue(false)
             when (result) {
                 is APIResponse.Success -> {
@@ -100,5 +99,22 @@ class SharedViewModel(private val repository: Repository) : ViewModel() {
             }
         }
         return name
+    }
+
+    // Local
+    fun add(favorite: Favorite){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.add(favorite)
+        }
+    }
+
+    fun delete(favorite: Favorite){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.delete(favorite)
+        }
+    }
+
+    fun searchFavorite(id: Int): LiveData<Favorite> {
+        return repository.searchFavorite(id)
     }
 }

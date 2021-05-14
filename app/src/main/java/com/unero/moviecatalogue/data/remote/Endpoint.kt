@@ -1,49 +1,24 @@
 package com.unero.moviecatalogue.data.remote
 
+import com.unero.moviecatalogue.BuildConfig.KEY
 import com.unero.moviecatalogue.data.remote.response.GenreResponse
 import com.unero.moviecatalogue.data.remote.response.MovieResponse
 import com.unero.moviecatalogue.data.remote.response.TVResponse
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Query
 
 interface Endpoint {
     // Popular
-    @GET("movie/popular")
-    suspend fun topMovie(
-        @Query("api_key") key: String
-    ): Response<MovieResponse>
+    @GET("movie/popular?api_key=$KEY")
+    suspend fun topMovie(): Response<MovieResponse>
 
-    @GET("tv/popular")
-    suspend fun topTV(
-        @Query("api_key") key: String
-    ): Response<TVResponse>
+    @GET("tv/popular?api_key=$KEY")
+    suspend fun topTV(): Response<TVResponse>
 
     // Genre
-    @GET("genre/movie/list")
-    suspend fun movieGenre(
-        @Query("api_key") key: String
-    ): Response<GenreResponse>
+    @GET("genre/movie/list?api_key=$KEY")
+    suspend fun movieGenre(): Response<GenreResponse>
 
-    @GET("genre/tv/list")
-    suspend fun tvGenre(
-        @Query("api_key") key: String
-    ): Response<GenreResponse>
-
-    // Testing
-    @GET("movie/popular")
-    fun testMovie(
-        @Query("api_key") key: String
-    ): Call<MovieResponse>
-
-    @GET("tv/popular")
-    fun testTV(
-        @Query("api_key") key: String
-    ): Call<TVResponse>
-
-    @GET("genre/movie/list")
-    fun testGenre(
-            @Query("api_key") key: String
-    ): Call<GenreResponse>
+    @GET("genre/tv/list?api_key=$KEY")
+    suspend fun tvGenre(): Response<GenreResponse>
 }

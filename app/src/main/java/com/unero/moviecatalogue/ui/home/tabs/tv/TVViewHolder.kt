@@ -14,8 +14,9 @@ import com.unero.moviecatalogue.util.Formatter.setTitle
 class TVViewHolder(private val binding: ItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(tvShow: TVShow) {
+        tvShow.type = "tv"
         binding.apply {
-            tvTitle.text = setTitle(tvShow.title)
+            tvTitle.text = setTitle(tvShow.originalTitle)
             tvRelease.text = setDateFormat(tvShow.date)
 
             Glide.with(binding.root)

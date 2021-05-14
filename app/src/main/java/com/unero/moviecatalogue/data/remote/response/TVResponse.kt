@@ -22,42 +22,35 @@ data class TVResponse(
 @Parcelize
 data class TVShow(
 
-	@field:SerializedName("first_air_date")
-	val date: String,
-
-	@field:SerializedName("overview")
-	val overview: String,
-
-	@field:SerializedName("original_language")
-	val language: String,
-
-	@field:SerializedName("genre_ids")
-	val genreIds: List<Int>,
-
-	@field:SerializedName("poster_path")
-	val poster: String,
-
-	@field:SerializedName("origin_country")
-	val country: List<String>,
-
-	@field:SerializedName("backdrop_path")
-	val backdropPath: String,
-
-	@field:SerializedName("original_name")
-	val originalName: String,
-
-	@field:SerializedName("popularity")
-	val popularity: Double,
-
-	@field:SerializedName("vote_average")
-	val rate: Float,
-
-	@field:SerializedName("name")
-	val title: String,
-
-	@field:SerializedName("id")
+        @field:SerializedName("id")
 	val id: Int,
 
-	@field:SerializedName("vote_count")
-	val voteCount: Int
+        @field:SerializedName("original_name")
+	val originalTitle: String,
+
+        @field:SerializedName("name")
+	val title: String,
+
+        @field:SerializedName("original_language")
+	val language: String,
+
+        @field:SerializedName("poster_path")
+	val poster: String,
+
+        @field:SerializedName("overview")
+	val overview: String,
+
+        @field:SerializedName("genre_ids")
+	val genreIds: List<Int>,
+
+        @field:SerializedName("first_air_date")
+	val date: String,
+
+        @field:SerializedName("vote_average")
+	val rate: Float,
+
+        @field:SerializedName("origin_country")
+	val country: List<String>,
+
+        var type: String = "tv"
 ) : Parcelable
