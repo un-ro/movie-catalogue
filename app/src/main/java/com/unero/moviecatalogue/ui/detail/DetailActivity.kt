@@ -4,26 +4,23 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.Menu
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.unero.moviecatalogue.R
-import com.unero.moviecatalogue.data.remote.response.Movie
-import com.unero.moviecatalogue.data.remote.response.TVShow
 import com.unero.moviecatalogue.databinding.ActivityDetailBinding
 import com.unero.moviecatalogue.databinding.ItemChipBinding
-import com.unero.moviecatalogue.util.Constant.POSTER_URL
+import com.unero.moviecatalogue.util.Constant
+import com.unero.moviecatalogue.util.Detail
 import com.unero.moviecatalogue.util.Formatter.setDateFormat
 import com.unero.moviecatalogue.util.Formatter.setLanguage
 import com.unero.moviecatalogue.viewmodel.SharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
 
 class DetailActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<SharedViewModel>()
     private lateinit var binding: ActivityDetailBinding
-    private var item: Any? = null
+    private var item: Detail = intent.getParcelableExtra("item")!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,9 +31,7 @@ class DetailActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // Receive data from parcel
-        item = intent.getParcelableExtra("item")
-        setDataToUI(item)
+        setDataToUI()
 
         binding.tvOverview.movementMethod = ScrollingMovementMethod.getInstance()
 
@@ -46,15 +41,17 @@ class DetailActivity : AppCompatActivity() {
 
     private fun setGenres() {
         viewModel.getGenres()
-
-        if (item is Movie) {
-            viewModel.genreMovies.observe(this, {
-                addGenre(viewModel.parseGenre((item as Movie).genreIds, it))
-            })
-        } else if (item is TVShow) {
-            viewModel.genreTV.observe(this, {
-                addGenre(viewModel.parseGenre((item as TVShow).genreIds, it))
-            })
+        when (item.type) {
+            "movie" -> {
+                viewModel.genreMovies.observe(this, {
+                    addGenre(viewModel.parseGenre(item.genreIds, it))
+                })
+            }
+            "tv" -> {
+                viewModel.genreTV.observe(this, {
+                    addGenre(viewModel.parseGenre(item.genreIds, it))
+                })
+            }
         }
     }
 
@@ -71,125 +68,78 @@ class DetailActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    private fun setDataToUI(item: Any?) {
-        if (item is Movie) {
-            with(binding) {
-                toolbar.title = item.title
-                tvTitle.text = item.originalTitle
-                tvMeta.text = resources.getString(R.string.meta,
+    private fun setDataToUI() {
+        with(binding) {
+            toolbar.title = item.title
+            tvTitle.text = item.originalTitle
+            tvMeta.text = resources.getString(R.string.meta,
                     setDateFormat(item.date),
                     setLanguage(item.language),
-                    if (item.isAdult) "+18" else "Everyone"
-                )
-                rtbRate.rating = item.rate / 2
-                tvOverview.text = item.overview
+                    if (item.type == "movie") {
+                        if (item.isAdult) "+18" else "Everyone"
+                    } else {
+                        if (item.country?.isNotEmpty() == true) item.country!![0] else "N/A"
+                    }
+            )
+            rtbRate.rating = item.rate / 2
+            tvOverview.text = item.overview
 
-                ivPoster.setOnClickListener {
-                    Toast.makeText(this@DetailActivity, item.title, Toast.LENGTH_SHORT).show()
-                }
-
-                toolbar.setOnMenuItemClickListener {
-                    if (it.itemId == R.id.item_share) {
-                        share(item)
-                        true
-                    } else false
-                }
+            toolbar.setOnMenuItemClickListener {
+                if (it.itemId == R.id.item_share) {
+                    share()
+                    true
+                } else false
             }
-            Glide.with(this)
-                .load(POSTER_URL + item.poster)
-                .into(binding.ivBackground)
-            Glide.with(this)
-                .load(POSTER_URL + item.poster)
-                .into(binding.ivPoster)
-        } else if (item is TVShow) {
-            with(binding) {
-                toolbar.title = item.title
-                tvTitle.text = item.originalTitle
-                tvMeta.text = resources.getString(R.string.meta,
-                    setDateFormat(item.date),
-                    setLanguage(item.language),
-                    if (item.country.isNotEmpty()) item.country[0] else "N/A"
-                )
-                rtbRate.rating = item.rate / 2
-                tvOverview.text = item.overview
-
-                ivPoster.setOnClickListener {
-                    Toast.makeText(this@DetailActivity, item.title, Toast.LENGTH_SHORT).show()
-                }
-
-                toolbar.setOnMenuItemClickListener {
-                    if (it.itemId == R.id.item_share) {
-                        share(item)
-                        true
-                    } else false
-                }
-            }
-            Glide.with(this)
-                .load(POSTER_URL + item.poster)
-                .into(binding.ivBackground)
-            Glide.with(this)
-                .load(POSTER_URL + item.poster)
-                .into(binding.ivPoster)
         }
+        Glide.with(this)
+                .load(Constant.POSTER_URL + item.poster)
+                .into(binding.ivBackground)
+        Glide.with(this)
+                .load(Constant.POSTER_URL + item.poster)
+                .into(binding.ivPoster)
     }
 
-    private fun share(item: Any) {
-        var shareText = ""
-        if (item is Movie) {
-            shareText = getString(R.string.share, item.title, setDateFormat(item.date))
-        } else if (item is TVShow) {
-            shareText = getString(R.string.share, item.title, setDateFormat(item.date))
-        }
+    private fun share() {
+        val shareText = getString(R.string.share, item.title, setDateFormat(item.date))
 
         val intent = Intent().apply {
             action = Intent.ACTION_SEND
             putExtra(Intent.EXTRA_TEXT, shareText)
             type = "text/plain"
         }
+
         val shareIntent = Intent.createChooser(intent, null)
         startActivity(shareIntent)
     }
 
-//    private fun setFAB(){
-//        // Observe status value, change drawable and database action
-//        viewModel.status.observe(this, {
-//            if (it) {
-//                binding.fabFav.apply {
-//                    setImageResource(R.drawable.ic_favorite_filled)
+    private fun setFAB(){
+        // Observe status value, change drawable and database action
+        viewModel.status.observe(this, {
+            if (it) {
+                binding.fabFav.apply {
+                    setImageResource(R.drawable.ic_favorite_filled)
 //                    setOnClickListener {
 //                        viewModel.delete(username)
 //                        viewModel.status.value = false
 //                    }
-//                }
-//            } else {
-//                binding.fabFav.apply {
-//                    setImageResource(R.drawable.ic_favorite)
-//                    setOnClickListener {
+                }
+            } else {
+                binding.fabFav.apply {
+                    setImageResource(R.drawable.ic_favorite)
+                    setOnClickListener {
 //                        viewModel.add(favorite!!)
-//                        viewModel.status.value = true
-//                    }
-//                }
-//            }
-//        })
-//    }
+                        viewModel.status.value = true
+                    }
+                }
+            }
+        })
+    }
 
-//    private fun setFABStatus(){
-//        val id = when (item) {
-//            is Movie -> {
-//                (item as Movie).id
-//            }
-//            is TVShow -> {
-//                (item as TVShow).id
-//            }
-//            else -> null
-//        }
-//
-//        if (id != null) {
-//            viewModel.searchFavorite(id).observe(this, {
-//                viewModel.status.value = it != null
-//            })
-//        }
-//    }
+    private fun setFABStatus(){
+        viewModel.searchFavorite(item.id).observe(this, {
+            viewModel.status.value = it != null
+        })
+    }
 
     override fun onBackPressed() {
         super.onBackPressed()

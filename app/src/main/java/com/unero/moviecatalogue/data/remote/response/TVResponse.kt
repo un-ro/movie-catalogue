@@ -1,8 +1,7 @@
 package com.unero.moviecatalogue.data.remote.response
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
+import com.unero.moviecatalogue.util.Detail
 
 data class TVResponse(
 
@@ -19,38 +18,53 @@ data class TVResponse(
 	val totalResults: Int
 )
 
-@Parcelize
 data class TVShow(
-
-        @field:SerializedName("id")
-	val id: Int,
+		@field:SerializedName("id")
+		val id: Int,
 
         @field:SerializedName("original_name")
-	val originalTitle: String,
+		val originalTitle: String,
 
         @field:SerializedName("name")
-	val title: String,
+		val title: String,
 
         @field:SerializedName("original_language")
-	val language: String,
+		val language: String,
 
         @field:SerializedName("poster_path")
-	val poster: String,
+		val poster: String,
 
         @field:SerializedName("overview")
-	val overview: String,
+		val overview: String,
 
         @field:SerializedName("genre_ids")
-	val genreIds: List<Int>,
+		val genreIds: List<Int>,
 
         @field:SerializedName("first_air_date")
-	val date: String,
+		val date: String,
 
         @field:SerializedName("vote_average")
-	val rate: Float,
+		val rate: Float,
 
         @field:SerializedName("origin_country")
-	val country: List<String>,
+		val country: List<String>,
 
         var type: String = "tv"
-) : Parcelable
+) {
+	fun toDetail(): Detail {
+		return Detail(
+				this.id,
+				this.originalTitle,
+				this.title,
+				this.language,
+				this.poster,
+				this.overview,
+				this.genreIds,
+				this.date,
+				this.rate,
+				this.country,
+				false,
+				"tv"
+		)
+	}
+}

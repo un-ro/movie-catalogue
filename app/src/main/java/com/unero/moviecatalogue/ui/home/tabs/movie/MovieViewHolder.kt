@@ -13,7 +13,6 @@ import com.unero.moviecatalogue.util.Formatter.setTitle
 
 class MovieViewHolder(private val binding: ItemBinding): RecyclerView.ViewHolder(binding.root) {
     fun bind(movie: Movie) {
-        movie.type = "movie"
         binding.apply {
             tvTitle.text = setTitle(movie.originalTitle)
             tvRelease.text = setDateFormat(movie.date)
@@ -25,7 +24,7 @@ class MovieViewHolder(private val binding: ItemBinding): RecyclerView.ViewHolder
 
             root.setOnClickListener {
                 val intent = Intent(itemView.context, DetailActivity::class.java)
-                intent.putExtra("item", movie)
+                intent.putExtra("item", movie.toDetail())
                 itemView.context.startActivity(intent)
             }
         }

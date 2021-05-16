@@ -1,8 +1,7 @@
 package com.unero.moviecatalogue.data.remote.response
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
+import com.unero.moviecatalogue.util.Detail
 
 data class MovieResponse(
 
@@ -19,7 +18,6 @@ data class MovieResponse(
 	val totalResults: Int
 )
 
-@Parcelize
 data class Movie(
 
 	@field:SerializedName("id")
@@ -53,4 +51,21 @@ data class Movie(
 	val isAdult: Boolean,
 
 	var type: String
-) : Parcelable
+) {
+	fun toDetail(): Detail {
+		return Detail(
+				this.id,
+				this.originalTitle,
+				this.title,
+				this.language,
+				this.poster,
+				this.overview,
+				this.genreIds,
+				this.date,
+				this.rate,
+				null,
+				this.isAdult,
+				"movie"
+		)
+	}
+}

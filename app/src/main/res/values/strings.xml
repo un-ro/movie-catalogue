@@ -28,4 +28,6 @@
     <string name="title_activity_favorite">FavoriteActivity</string>
     <string name="cd_fab">Add to Favorite</string>
     <string name="item_favorite">Favorite Item</string>
+    <string name="lbl_genres">Genres</string>
+    <string name="lbl_synopsis">Synopsis</string>
 </resources>
