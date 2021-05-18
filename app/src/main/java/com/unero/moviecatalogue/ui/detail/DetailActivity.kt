@@ -13,14 +13,13 @@ import com.unero.moviecatalogue.util.Constant
 import com.unero.moviecatalogue.util.Detail
 import com.unero.moviecatalogue.util.Formatter.setDateFormat
 import com.unero.moviecatalogue.util.Formatter.setLanguage
-import com.unero.moviecatalogue.viewmodel.SharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailActivity : AppCompatActivity() {
 
-    private val viewModel by viewModel<SharedViewModel>()
+    private val viewModel by viewModel<DetailViewModel>()
     private lateinit var binding: ActivityDetailBinding
-    private var item: Detail = intent.getParcelableExtra("item")!!
+    private lateinit var item: Detail
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,15 +27,22 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Back Navigation
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        // Item Parcelable
+        item = intent.getParcelableExtra("item")!!
+
+        // UI
         setDataToUI()
-
         binding.tvOverview.movementMethod = ScrollingMovementMethod.getInstance()
-
         // Create Chip View
         setGenres()
+
+        // Favorite
+        setFABStatus()
+        setFAB()
     }
 
     private fun setGenres() {
@@ -118,16 +124,16 @@ class DetailActivity : AppCompatActivity() {
             if (it) {
                 binding.fabFav.apply {
                     setImageResource(R.drawable.ic_favorite_filled)
-//                    setOnClickListener {
-//                        viewModel.delete(username)
-//                        viewModel.status.value = false
-//                    }
+                    setOnClickListener {
+                        viewModel.delete(item.toFavorite())
+                        viewModel.status.value = false
+                    }
                 }
             } else {
                 binding.fabFav.apply {
                     setImageResource(R.drawable.ic_favorite)
                     setOnClickListener {
-//                        viewModel.add(favorite!!)
+                        viewModel.add(item.toFavorite())
                         viewModel.status.value = true
                     }
                 }

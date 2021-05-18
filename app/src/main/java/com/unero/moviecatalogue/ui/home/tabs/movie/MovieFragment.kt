@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.unero.moviecatalogue.databinding.FragmentMovieBinding
-import com.unero.moviecatalogue.viewmodel.SharedViewModel
+import com.unero.moviecatalogue.ui.home.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MovieFragment : Fragment() {
 
     private lateinit var binding: FragmentMovieBinding
-    private val viewModel by viewModel<SharedViewModel>()
+    private val viewModel by viewModel<HomeViewModel>()
     private lateinit var movieAdapter: MovieAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,6 +1,7 @@
 package com.unero.moviecatalogue.util
 
 import android.os.Parcelable
+import com.unero.moviecatalogue.data.local.Favorite
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -17,4 +18,19 @@ data class Detail(
     var country: List<String>?,
     var isAdult: Boolean = false,
     val type: String
-): Parcelable
+): Parcelable {
+    fun toFavorite(): Favorite {
+        return Favorite(
+                this.id,
+                this.originalTitle,
+                this.title,
+                this.language,
+                this.poster,
+                this.overview,
+                this.date,
+                this.rate,
+                this.isAdult,
+                this.type
+        )
+    }
+}

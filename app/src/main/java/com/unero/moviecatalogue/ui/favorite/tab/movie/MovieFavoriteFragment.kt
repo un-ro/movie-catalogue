@@ -1,4 +1,4 @@
-package com.unero.moviecatalogue.ui.home.tabs.tv
+package com.unero.moviecatalogue.ui.favorite.tab.movie
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,38 +6,35 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
-import com.unero.moviecatalogue.databinding.FragmentTVShowBinding
-import com.unero.moviecatalogue.ui.home.HomeViewModel
+import com.unero.moviecatalogue.databinding.FragmentMovieBinding
+import com.unero.moviecatalogue.ui.favorite.FavoriteViewModel
+import com.unero.moviecatalogue.ui.home.tabs.movie.MovieAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class TVShowFragment : Fragment() {
+class MovieFavoriteFragment : Fragment() {
 
-    private lateinit var binding: FragmentTVShowBinding
-    private val viewModel by viewModel<HomeViewModel>()
-    private lateinit var tvAdapter: TVAdapter
+    private val viewModel by viewModel<FavoriteViewModel>()
+    private lateinit var binding: FragmentMovieBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.topTV()
+        viewModel.getFav("movie")
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentTVShowBinding.inflate(inflater, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
+        binding = FragmentMovieBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupRV()
 
-        viewModel.tv.observe(viewLifecycleOwner, {
+        viewModel.movies.observe(viewLifecycleOwner, {
             if (it.isNotEmpty()) {
-                tvAdapter.setShows(it)
-                tvAdapter.notifyDataSetChanged()
+                movieAdapter.setMovies(it)
+                movieAdapter.notifyDataSetChanged()
             } else {
                 showMessage("Unknown Error")
             }
@@ -72,7 +69,7 @@ class TVShowFragment : Fragment() {
     }
 
     private fun retry() {
-        viewModel.topTV()
+        viewModel.topMovies()
         binding.apply {
             iconError.visibility = View.GONE
             btnError.visibility = View.GONE
@@ -88,9 +85,9 @@ class TVShowFragment : Fragment() {
     }
 
     private fun setupRV() {
-        with(binding.rvTv) {
-            tvAdapter = TVAdapter()
-            adapter = tvAdapter
+        with(binding.rvMovie) {
+            movieAdapter = MovieAdapter()
+            adapter = movieAdapter
             setHasFixedSize(true)
         }
     }

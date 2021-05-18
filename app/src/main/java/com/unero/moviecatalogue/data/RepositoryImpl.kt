@@ -71,7 +71,7 @@ class RepositoryImpl( private val endpoint: Endpoint, private val dao: FavoriteD
     }
 
     // Room
-    override suspend fun getAllFav(type: String): LiveData<List<Favorite>> {
+    override suspend fun getAllFav(type: String): List<Favorite> {
         return dao.loadFavoriteByType(type)
     }
 

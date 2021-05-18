@@ -14,5 +14,9 @@ data class Favorite(
     val overview: String,
     val date: String,
     val rate: Float,
+    val isAdult: Boolean,
     val type: String
-)
+) {
+    fun toDetail() {
+    }
+}

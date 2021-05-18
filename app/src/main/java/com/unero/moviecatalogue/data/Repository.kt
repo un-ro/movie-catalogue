@@ -15,7 +15,7 @@ interface Repository {
     suspend fun genreTV(): APIResponse<GenreResponse>
 
     // Room
-    suspend fun getAllFav(type: String): LiveData<List<Favorite>>
+    suspend fun getAllFav(type: String): List<Favorite>
     fun searchFavorite(id: Int): LiveData<Favorite>
     suspend fun add(favorite: Favorite)
     suspend fun delete(favorite: Favorite)
