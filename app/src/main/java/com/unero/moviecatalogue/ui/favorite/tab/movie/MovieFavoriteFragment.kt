@@ -15,6 +15,7 @@ class MovieFavoriteFragment : Fragment() {
 
     private val viewModel by viewModel<FavoriteViewModel>()
     private lateinit var binding: FragmentMovieBinding
+    private lateinit var movieAdapter: MovieAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,57 +32,18 @@ class MovieFavoriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRV()
 
-        viewModel.movies.observe(viewLifecycleOwner, {
+        viewModel.favorites.observe(viewLifecycleOwner, {
             if (it.isNotEmpty()) {
-                movieAdapter.setMovies(it)
+                movieAdapter.setFavorite(it)
                 movieAdapter.notifyDataSetChanged()
             } else {
-                showMessage("Unknown Error")
+                showMessage()
             }
         })
-
-        viewModel.errorMsg.observe(viewLifecycleOwner, {
-            showMessage(it)
-        })
-
-        viewModel.showLoading.observe(viewLifecycleOwner, {
-            binding.shimmerFrameLayout.apply {
-                if (!it) {
-                    stopShimmer()
-                    visibility = View.GONE
-                }
-            }
-        })
-
-        binding.btnError.setOnClickListener {
-            retry()
-        }
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.shimmerFrameLayout.startShimmer()
-    }
-
-    override fun onPause() {
-        binding.shimmerFrameLayout.stopShimmer()
-        super.onPause()
-    }
-
-    private fun retry() {
-        viewModel.topMovies()
-        binding.apply {
-            iconError.visibility = View.GONE
-            btnError.visibility = View.GONE
-        }
-    }
-
-    private fun showMessage(message: String) {
-        binding.apply {
-            iconError.visibility = View.VISIBLE
-            btnError.visibility = View.VISIBLE
-        }
-        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+    private fun showMessage() {
+        Snackbar.make(binding.root, "Unknown Error", Snackbar.LENGTH_LONG).show()
     }
 
     private fun setupRV() {
