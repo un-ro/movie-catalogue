@@ -1,4 +1,4 @@
-package com.unero.moviecatalogue.data.local
+package com.unero.moviecatalogue.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -15,7 +15,6 @@ data class Favorite(
     val overview: String,
     val date: String,
     val rate: Float,
-    val isAdult: Boolean,
     val type: String
 ) {
     fun toDetail(): Detail {
@@ -29,9 +28,7 @@ data class Favorite(
             listOf(),
             this.date,
             this.rate,
-            listOf(),
-            this.isAdult,
-            "movie"
+            this.type
         )
     }
 }

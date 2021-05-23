@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.unero.moviecatalogue.data.Repository
-import com.unero.moviecatalogue.data.local.Favorite
+import com.unero.moviecatalogue.data.local.entity.Favorite
 import com.unero.moviecatalogue.data.remote.response.GenresItem
 import com.unero.moviecatalogue.util.SingleLiveEvent
 import com.unero.moviecatalogue.util.api.APIResponse

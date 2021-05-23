@@ -46,9 +46,6 @@ data class TVShow(
         @field:SerializedName("vote_average")
 		val rate: Float,
 
-        @field:SerializedName("origin_country")
-		val country: List<String>,
-
         var type: String = "tv"
 ) {
 	fun toDetail(): Detail {
@@ -62,8 +59,6 @@ data class TVShow(
 				this.genreIds,
 				this.date,
 				this.rate,
-				this.country,
-				false,
 				"tv"
 		)
 	}

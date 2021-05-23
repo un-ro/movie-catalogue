@@ -79,23 +79,11 @@
         android:progressBackgroundTint="@color/star_back"
         android:secondaryProgressTint="@color/white"/>
 
-    <TextView
-        android:id="@+id/lbl_genres"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/lbl_genres"
-        android:textSize="16sp"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/rtb_rate"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="8dp" />
-
     <HorizontalScrollView
         android:id="@+id/hsv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/lbl_genres"
+        app:layout_constraintTop_toBottomOf="@id/rtb_rate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="8dp">
@@ -151,7 +139,8 @@
         android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="@color/teal_200"
+        app:rippleColor="@color/tab_background"
+        android:backgroundTint="@color/tab_indicator"
         android:contentDescription="@string/cd_fab" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

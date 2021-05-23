@@ -13,6 +13,7 @@ import com.unero.moviecatalogue.util.Constant
 import com.unero.moviecatalogue.util.Detail
 import com.unero.moviecatalogue.util.Formatter.setDateFormat
 import com.unero.moviecatalogue.util.Formatter.setLanguage
+import com.unero.moviecatalogue.util.Formatter.setMeta
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailActivity : AppCompatActivity() {
@@ -78,14 +79,11 @@ class DetailActivity : AppCompatActivity() {
         with(binding) {
             toolbar.title = item.title
             tvTitle.text = item.originalTitle
-            tvMeta.text = resources.getString(R.string.meta,
-                    setDateFormat(item.date),
-                    setLanguage(item.language),
-                    if (item.type == "movie") {
-                        if (item.isAdult) "+18" else "Everyone"
-                    } else {
-                        if (item.country?.isNotEmpty() == true) item.country!![0] else "N/A"
-                    }
+            tvMeta.text = setMeta(
+                item.originalTitle,
+                item.title,
+                setDateFormat(item.date),
+                setLanguage(item.language)
             )
             rtbRate.rating = item.rate / 2
             tvOverview.text = item.overview

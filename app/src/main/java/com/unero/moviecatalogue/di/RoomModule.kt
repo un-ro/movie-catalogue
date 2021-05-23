@@ -2,8 +2,8 @@ package com.unero.moviecatalogue.di
 
 import android.app.Application
 import androidx.room.Room
-import com.unero.moviecatalogue.data.local.AppDatabase
-import com.unero.moviecatalogue.data.local.FavoriteDao
+import com.unero.moviecatalogue.data.local.dao.FavoriteDao
+import com.unero.moviecatalogue.data.local.db.AppDatabase
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 

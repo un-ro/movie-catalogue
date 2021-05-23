@@ -81,7 +81,7 @@ dependencies {
 
     // Testing
     // Unit Testing
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0-native-mt'
     testImplementation "androidx.arch.core:core-testing:$arch_version"
     testImplementation "androidx.room:room-testing:$room_version"
 

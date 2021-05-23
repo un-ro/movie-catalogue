@@ -27,7 +27,7 @@ task clean(type: Delete) {
 
 ext {
     // Kotlin
-    kotlin_version = '1.4.32'
+    kotlin_version = '1.5.0'
 
     // Android Jetpack
     lifecycle_version = '2.3.1'
@@ -38,7 +38,7 @@ ext {
     paging_version = "2.1.2"
 
     // Other
-    koin_version= '3.0.1'
+    koin_version= '3.0.2'
     retrofit_version = '2.9.0'
     glide_version = '4.12.0'
 }

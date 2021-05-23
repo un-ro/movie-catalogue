@@ -47,9 +47,6 @@ data class Movie(
 	@field:SerializedName("vote_average")
 	val rate: Float,
 
-	@field:SerializedName("adult")
-	val isAdult: Boolean,
-
 	var type: String
 ) {
 	fun toDetail(): Detail {
@@ -63,8 +60,6 @@ data class Movie(
 				this.genreIds,
 				this.date,
 				this.rate,
-				null,
-				this.isAdult,
 				"movie"
 		)
 	}

@@ -1,7 +1,8 @@
 package com.unero.moviecatalogue.data
 
 import androidx.lifecycle.LiveData
-import com.unero.moviecatalogue.data.local.Favorite
+import androidx.paging.DataSource
+import com.unero.moviecatalogue.data.local.entity.Favorite
 import com.unero.moviecatalogue.data.remote.response.GenreResponse
 import com.unero.moviecatalogue.data.remote.response.MovieResponse
 import com.unero.moviecatalogue.data.remote.response.TVResponse
@@ -15,8 +16,8 @@ interface Repository {
     suspend fun genreTV(): APIResponse<GenreResponse>
 
     // Room
-    suspend fun getAllFav(type: String): List<Favorite>
-    fun searchFavorite(id: Int): LiveData<Favorite>
+    suspend fun getAllFav(type: String): DataSource.Factory<Int, Favorite>
+    suspend fun searchFavorite(id: Int): LiveData<Favorite>
     suspend fun add(favorite: Favorite)
     suspend fun delete(favorite: Favorite)
 }

@@ -54,6 +54,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:contentDescription="@string/warning_icon" />
 
+    <TextView
+        android:id="@+id/lbl_empty_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/icon_error"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        android:textSize="20sp"
+        android:textColor="@color/tab_background"
+        android:textStyle="bold"
+        android:text="Favorite List is Empty"/>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_error"
         android:layout_width="wrap_content"

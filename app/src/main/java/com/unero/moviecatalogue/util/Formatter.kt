@@ -5,6 +5,13 @@ import java.util.*
 
 object Formatter {
 
+    fun setMeta(originalTitle: String, title: String, date: String, language: String): String {
+        return if (originalTitle == title)
+            "$date \t $language"
+        else
+            "$title \n $date \t $language"
+    }
+
     // en -> English, etc
     fun setLanguage(originalLanguage: String): String {
         return when (originalLanguage) {

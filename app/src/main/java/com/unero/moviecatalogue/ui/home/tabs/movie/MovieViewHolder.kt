@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.unero.moviecatalogue.R
-import com.unero.moviecatalogue.data.local.Favorite
+import com.unero.moviecatalogue.data.local.entity.Favorite
 import com.unero.moviecatalogue.data.remote.response.Movie
 import com.unero.moviecatalogue.databinding.ItemBinding
 import com.unero.moviecatalogue.ui.detail.DetailActivity

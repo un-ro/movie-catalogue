@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.android.material.snackbar.Snackbar
 import com.unero.moviecatalogue.databinding.FragmentMovieBinding
 import com.unero.moviecatalogue.ui.favorite.FavoriteViewModel
 import com.unero.moviecatalogue.ui.home.tabs.movie.MovieAdapter
@@ -13,8 +12,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MovieFavoriteFragment : Fragment() {
 
-    private val viewModel by viewModel<FavoriteViewModel>()
     private lateinit var binding: FragmentMovieBinding
+    private val viewModel by viewModel<FavoriteViewModel>()
     private lateinit var movieAdapter: MovieAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,10 +39,32 @@ class MovieFavoriteFragment : Fragment() {
                 showMessage()
             }
         })
+
+        viewModel.showLoading.observe(viewLifecycleOwner, {
+            binding.shimmerFrameLayout.apply {
+                if (!it) {
+                    stopShimmer()
+                    visibility = View.GONE
+                }
+            }
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.shimmerFrameLayout.startShimmer()
+    }
+
+    override fun onPause() {
+        binding.shimmerFrameLayout.stopShimmer()
+        super.onPause()
     }
 
     private fun showMessage() {
-        Snackbar.make(binding.root, "Unknown Error", Snackbar.LENGTH_LONG).show()
+        binding.apply {
+            iconError.visibility = View.VISIBLE
+            lblEmptyFavorite.visibility = View.VISIBLE
+        }
     }
 
     private fun setupRV() {

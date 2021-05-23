@@ -1,8 +1,9 @@
 package com.unero.moviecatalogue.data
 
 import androidx.lifecycle.LiveData
-import com.unero.moviecatalogue.data.local.Favorite
-import com.unero.moviecatalogue.data.local.FavoriteDao
+import androidx.paging.DataSource
+import com.unero.moviecatalogue.data.local.dao.FavoriteDao
+import com.unero.moviecatalogue.data.local.entity.Favorite
 import com.unero.moviecatalogue.data.remote.Endpoint
 import com.unero.moviecatalogue.data.remote.response.GenreResponse
 import com.unero.moviecatalogue.data.remote.response.MovieResponse
@@ -10,6 +11,8 @@ import com.unero.moviecatalogue.data.remote.response.TVResponse
 import com.unero.moviecatalogue.util.api.APIResponse
 import com.unero.moviecatalogue.util.api.ResponseHandler.ifError
 import com.unero.moviecatalogue.util.api.ResponseHandler.ifSuccess
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class RepositoryImpl( private val endpoint: Endpoint, private val dao: FavoriteDao): Repository {
     override suspend fun topMovie(): APIResponse<MovieResponse> {
@@ -70,13 +73,13 @@ class RepositoryImpl( private val endpoint: Endpoint, private val dao: FavoriteD
         }
     }
 
-    // Room
-    override suspend fun getAllFav(type: String): List<Favorite> {
-        return dao.loadFavoriteByType(type)
-    }
+    override suspend fun getAllFav(type: String): DataSource.Factory<Int, Favorite> =
+        dao.loadFavoriteByType(type)
 
-    override fun searchFavorite(id: Int): LiveData<Favorite> {
-        return dao.searchFavorite(id)
+    override suspend fun searchFavorite(id: Int): LiveData<Favorite> {
+        return withContext(Dispatchers.IO) {
+            dao.searchFavorite(id)
+        }
     }
 
     override suspend fun add(favorite: Favorite) {
