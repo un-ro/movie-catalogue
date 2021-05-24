@@ -13,6 +13,7 @@ data class Favorite(
     val language: String,
     val poster: String,
     val overview: String,
+    val genreIds: List<Int>,
     val date: String,
     val rate: Float,
     val type: String
@@ -25,7 +26,7 @@ data class Favorite(
             this.language,
             this.poster,
             this.overview,
-            listOf(),
+            this.genreIds,
             this.date,
             this.rate,
             this.type

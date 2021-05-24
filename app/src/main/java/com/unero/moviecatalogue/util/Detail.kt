@@ -25,6 +25,7 @@ data class Detail(
                 this.language,
                 this.poster,
                 this.overview,
+                this.genreIds,
                 this.date,
                 this.rate,
                 this.type

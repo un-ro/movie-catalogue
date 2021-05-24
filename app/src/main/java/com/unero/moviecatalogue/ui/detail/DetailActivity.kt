@@ -48,6 +48,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun setGenres() {
         viewModel.getGenres()
+        println(item.genreIds)
         when (item.type) {
             "movie" -> {
                 viewModel.genreMovies.observe(this, {

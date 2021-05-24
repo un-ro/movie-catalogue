@@ -35,7 +35,7 @@ ext {
     espresso_version = '3.3.0'
     arch_version = '2.1.0'
     room_version = '2.3.0'
-    paging_version = "2.1.2"
+    paging_version = "3.0.0"
 
     // Other
     koin_version= '3.0.2'

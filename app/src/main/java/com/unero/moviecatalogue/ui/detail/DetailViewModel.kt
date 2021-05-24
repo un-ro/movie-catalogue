@@ -18,7 +18,7 @@ class DetailViewModel(private val repository: Repository): ViewModel() {
     private var _genresTV = MutableLiveData<List<GenresItem>>()
 
     // Status Only
-    val showLoading = MutableLiveData<Boolean>()
+    private val showLoading = MutableLiveData<Boolean>()
     val errorMsg = SingleLiveEvent<String>()
     val status = SingleLiveEvent<Boolean>()
 
@@ -76,7 +76,5 @@ class DetailViewModel(private val repository: Repository): ViewModel() {
         }
     }
 
-    fun searchFavorite(id: Int): LiveData<Favorite> {
-        return repository.searchFavorite(id)
-    }
+    fun searchFavorite(id: Int): LiveData<Favorite> = repository.searchFavorite(id)
 }

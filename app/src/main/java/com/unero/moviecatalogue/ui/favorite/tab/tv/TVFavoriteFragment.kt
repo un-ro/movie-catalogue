@@ -7,19 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.unero.moviecatalogue.databinding.FragmentTVShowBinding
 import com.unero.moviecatalogue.ui.favorite.FavoriteViewModel
-import com.unero.moviecatalogue.ui.home.tabs.tv.TVAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TVFavoriteFragment : Fragment() {
 
     private lateinit var binding: FragmentTVShowBinding
     private val viewModel by viewModel<FavoriteViewModel>()
-    private lateinit var tvAdapter: TVAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.getFav("tv")
-    }
+    private lateinit var tvAdapter: TVFavoriteAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -31,13 +25,9 @@ class TVFavoriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRV()
 
-        viewModel.favorites.observe(viewLifecycleOwner, {
-            if (it.isNotEmpty()) {
-                tvAdapter.setFavorites(it)
-                tvAdapter.notifyDataSetChanged()
-            } else {
-                showMessage()
-            }
+        viewModel.getFav("tv").observe(viewLifecycleOwner, {
+            tvAdapter.submitList(it)
+            viewModel.setLoad(false)
         })
 
         viewModel.showLoading.observe(viewLifecycleOwner, {
@@ -69,7 +59,7 @@ class TVFavoriteFragment : Fragment() {
 
     private fun setupRV() {
         with(binding.rvTv) {
-            tvAdapter = TVAdapter()
+            tvAdapter = TVFavoriteAdapter()
             adapter = tvAdapter
             setHasFixedSize(true)
         }

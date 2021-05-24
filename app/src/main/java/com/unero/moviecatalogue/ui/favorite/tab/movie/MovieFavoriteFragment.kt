@@ -7,19 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.unero.moviecatalogue.databinding.FragmentMovieBinding
 import com.unero.moviecatalogue.ui.favorite.FavoriteViewModel
-import com.unero.moviecatalogue.ui.home.tabs.movie.MovieAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MovieFavoriteFragment : Fragment() {
 
     private lateinit var binding: FragmentMovieBinding
     private val viewModel by viewModel<FavoriteViewModel>()
-    private lateinit var movieAdapter: MovieAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.getFav("movie")
-    }
+    private lateinit var movieAdapter: MovieFavoriteAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -31,13 +25,9 @@ class MovieFavoriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRV()
 
-        viewModel.favorites.observe(viewLifecycleOwner, {
-            if (it.isNotEmpty()) {
-                movieAdapter.setFavorite(it)
-                movieAdapter.notifyDataSetChanged()
-            } else {
-                showMessage()
-            }
+        viewModel.getFav("movie").observe(viewLifecycleOwner, {
+            movieAdapter.submitList(it)
+            viewModel.setLoad(false)
         })
 
         viewModel.showLoading.observe(viewLifecycleOwner, {
@@ -69,7 +59,7 @@ class MovieFavoriteFragment : Fragment() {
 
     private fun setupRV() {
         with(binding.rvMovie) {
-            movieAdapter = MovieAdapter()
+            movieAdapter = MovieFavoriteAdapter()
             adapter = movieAdapter
             setHasFixedSize(true)
         }

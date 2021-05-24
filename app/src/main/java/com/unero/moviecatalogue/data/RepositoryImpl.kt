@@ -1,8 +1,9 @@
 package com.unero.moviecatalogue.data
 
 import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
-import com.unero.moviecatalogue.data.local.dao.FavoriteDao
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import com.unero.moviecatalogue.data.local.LocalDataSource
 import com.unero.moviecatalogue.data.local.entity.Favorite
 import com.unero.moviecatalogue.data.remote.Endpoint
 import com.unero.moviecatalogue.data.remote.response.GenreResponse
@@ -11,21 +12,22 @@ import com.unero.moviecatalogue.data.remote.response.TVResponse
 import com.unero.moviecatalogue.util.api.APIResponse
 import com.unero.moviecatalogue.util.api.ResponseHandler.ifError
 import com.unero.moviecatalogue.util.api.ResponseHandler.ifSuccess
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
-class RepositoryImpl( private val endpoint: Endpoint, private val dao: FavoriteDao): Repository {
+class RepositoryImpl (
+    private val network: Endpoint,
+    private val local: LocalDataSource)
+    : Repository {
+
+    // Movie, TVShow, Genres
     override suspend fun topMovie(): APIResponse<MovieResponse> {
-//        IdlingResources.increment()
         return try {
-            val response = endpoint.topMovie()
+            val response = network.topMovie()
             if (response.isSuccessful) {
-//                IdlingResources.decrement()
                 ifSuccess(response)
             } else {
                 ifError(response)
             }
-        } catch (e: Exception) {
+        } catch (e: Exception){
             APIResponse.Error(e)
         }
     }
@@ -33,7 +35,7 @@ class RepositoryImpl( private val endpoint: Endpoint, private val dao: FavoriteD
     override suspend fun topTV(): APIResponse<TVResponse> {
 //        IdlingResources.increment()
         return try {
-            val response = endpoint.topTV()
+            val response = network.topTV()
             if (response.isSuccessful) {
 //                IdlingResources.decrement()
                 ifSuccess(response)
@@ -48,7 +50,7 @@ class RepositoryImpl( private val endpoint: Endpoint, private val dao: FavoriteD
     override suspend fun genreMovie(): APIResponse<GenreResponse> {
 //        IdlingResources.increment()
         return try {
-            val response = endpoint.movieGenre()
+            val response = network.movieGenre()
             if (response.isSuccessful) {
 //                IdlingResources.decrement()
                 ifSuccess(response)
@@ -62,7 +64,7 @@ class RepositoryImpl( private val endpoint: Endpoint, private val dao: FavoriteD
 
     override suspend fun genreTV(): APIResponse<GenreResponse> {
         return try {
-            val response = endpoint.tvGenre()
+            val response = network.tvGenre()
             if (response.isSuccessful) {
                 ifSuccess(response)
             } else {
@@ -73,20 +75,23 @@ class RepositoryImpl( private val endpoint: Endpoint, private val dao: FavoriteD
         }
     }
 
-    override suspend fun getAllFav(type: String): DataSource.Factory<Int, Favorite> =
-        dao.loadFavoriteByType(type)
-
-    override suspend fun searchFavorite(id: Int): LiveData<Favorite> {
-        return withContext(Dispatchers.IO) {
-            dao.searchFavorite(id)
-        }
+    // Favorite
+    override fun getAllFav(type: String): LiveData<PagedList<Favorite>> {
+        val config = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setInitialLoadSizeHint(4)
+            .setPageSize(4)
+            .build()
+        return LivePagedListBuilder(local.getFavorites(type), config).build()
     }
 
+    override fun searchFavorite(id: Int): LiveData<Favorite> = local.searchFavorite(id)
+
     override suspend fun add(favorite: Favorite) {
-        dao.insert(favorite)
+        local.add(favorite)
     }
 
     override suspend fun delete(favorite: Favorite) {
-        dao.delete(favorite)
+        local.remove(favorite)
     }
 }

@@ -1,4 +1,4 @@
-package com.unero.moviecatalogue.data.local.dao
+package com.unero.moviecatalogue.data.local.room
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
