@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.unero.moviecatalogue.data.Repository
 import com.unero.moviecatalogue.data.remote.response.Movie
 import com.unero.moviecatalogue.data.remote.response.TVShow
-import com.unero.moviecatalogue.util.IdlingResources
 import com.unero.moviecatalogue.util.SingleLiveEvent
 import com.unero.moviecatalogue.util.api.APIResponse
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +27,7 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
 
     // Get Top Movie
     fun topMovies() {
-        IdlingResources.increment()
+        //IdlingResources.increment()
         showLoading.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
             val result = repository.topMovie()
@@ -40,12 +39,12 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
                 is APIResponse.Error -> errorMsg.postValue(result.exception.message)
             }
         }
-        IdlingResources.decrement()
+        //IdlingResources.decrement()
     }
 
     // Get Top TV Show
     fun topTV() {
-        IdlingResources.increment()
+        //IdlingResources.increment()
         showLoading.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
             val result = repository.topTV()
@@ -57,6 +56,6 @@ class HomeViewModel(private val repository: Repository): ViewModel() {
                 is APIResponse.Error -> errorMsg.postValue(result.exception.message)
             }
         }
-        IdlingResources.decrement()
+        //IdlingResources.decrement()
     }
 }

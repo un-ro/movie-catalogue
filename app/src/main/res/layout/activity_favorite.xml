@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Favorite"
+            app:title="@string/title_activity_favorite"
             android:textAlignment="center"
             app:navigationIconTint="@color/tab_indicator" />
 

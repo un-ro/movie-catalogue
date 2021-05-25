@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.unero.moviecatalogue.data.Repository
 import com.unero.moviecatalogue.data.local.entity.Favorite
 import com.unero.moviecatalogue.data.remote.response.GenresItem
-import com.unero.moviecatalogue.util.IdlingResources
 import com.unero.moviecatalogue.util.SingleLiveEvent
 import com.unero.moviecatalogue.util.api.APIResponse
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +27,7 @@ class DetailViewModel(private val repository: Repository): ViewModel() {
     val genreTV: LiveData<List<GenresItem>> get() = _genresTV
 
     fun getGenres() {
-        IdlingResources.increment()
+        // IdlingResources.increment()
         showLoading.postValue(true)
         viewModelScope.launch(Dispatchers.IO) {
             /**
@@ -48,7 +47,7 @@ class DetailViewModel(private val repository: Repository): ViewModel() {
             if (rgt is APIResponse.Success)
                 _genresTV.postValue(rgt.data.genres)
         }
-        IdlingResources.decrement()
+        // IdlingResources.decrement()
     }
 
     fun parseGenre(genreId: List<Int>, genres: List<GenresItem>): List<String> {
@@ -66,18 +65,18 @@ class DetailViewModel(private val repository: Repository): ViewModel() {
 
     // Local
     fun add(favorite: Favorite){
-        IdlingResources.increment()
+        //IdlingResources.increment()
         viewModelScope.launch(Dispatchers.IO) {
             repository.add(favorite)
-            IdlingResources.decrement()
+            //IdlingResources.decrement()
         }
     }
 
     fun delete(favorite: Favorite){
-        IdlingResources.increment()
+        //IdlingResources.increment()
         viewModelScope.launch(Dispatchers.IO) {
             repository.delete(favorite)
-            IdlingResources.decrement()
+            //IdlingResources.decrement()
         }
     }
 

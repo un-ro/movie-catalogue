@@ -3,7 +3,6 @@ package com.unero.moviecatalogue.ui.favorite
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
-import com.unero.moviecatalogue.R
 import com.unero.moviecatalogue.databinding.ActivityFavoriteBinding
 
 class FavoriteActivity : AppCompatActivity() {
@@ -29,7 +28,6 @@ class FavoriteActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_home, menu)
         return super.onCreateOptionsMenu(menu)
     }
 }
