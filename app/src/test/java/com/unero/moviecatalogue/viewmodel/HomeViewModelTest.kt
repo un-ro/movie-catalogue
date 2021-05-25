@@ -24,7 +24,7 @@ import kotlin.test.assertNotNull
 
 @RunWith(RobolectricTestRunner::class)
 @Config(manifest = Config.NONE)
-class HomeViewModel: KoinTest {
+class HomeViewModelTest: KoinTest {
 
     private val viewModel by inject<HomeViewModel>()
 

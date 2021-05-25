@@ -6,54 +6,70 @@ Disini saya menggunakan [API tmdb](https://developers.themoviedb.org/3) untuk da
     - check modules
         - Melakukan cek bahwa module sudah di inject
 2. RepositoryTest:
-    - Get Movie
+    - Get Movie from Network
         - Request ke api, jika sukses cek tidak null pada data.
-        - Jika Gagal, cek tidak null pada pesan eksepsi.
-    - Get TV Show
+    - Get TVShow from Network
         - Request ke api, jika sukses cek tidak null pada data.
-        - Jika Gagal, cek tidak null pada pesan eksepsi.
     - Get Movie Genre and check if equal to Generate
         - Cek apakah data hasil generate dengan data api sama.
     - Get Movie Genre and check if different to Generate
         - Cek apakah data hasil generate dengan data api berbeda.
-3. SharedViewModelTest:
-    - Setiap Fungsi
+3. HomeViewModelTest:
+    - Top Movies Success
         - Menjalankan fungsi dan menyimpan value ke MutableLiveData
         - Observe menggunakan LiveDataUtil
         - Cek bahwa value LiveData tidak null
+   - Top TVShow Success
+        - Menjalankan fungsi dan menyimpan value ke MutableLiveData
+        - Observe menggunakan LiveDataUtil
+        - Cek bahwa value LiveData tidak null
+4. DetailViewModelTest:
+    - A Get Genres
+        - Menjalankan fungsi dan menyimpan value ke MutableLiveData
+        - Observe menggunakan LiveDataUtil
+        - Cek bahwa value LiveData tidak null
+    - B Parse Genres
+        - Generate Item Dummy
+        - Menyamakan isi list parsing viewmodel dengan dummy
+    - C Add Favorite
+        - Object Spy milik repo melakukan insert object
+        - Verifikasi apakah spy repo tersebut sudah melakukan insert
+    - D Search Favorite
+        - Object Spy milik repo melakukan pencarian object
+        - Verifikasi apakah spy repo tersebut sudah melakukan pencarian
+    - E Delete Favorite
+        - Object Spy milik repo melakukan insert object
+        - Object Spy milik repo melakukan delete object
+        - Verifikasi apakah spy repo tersebut sudah melakukan insert
+        - Verifikasi apakah spy repo tersebut sudah melakukan delete
+5. FavoriteViewModelTest
+    - Get PagedList but empty
+        - Request ke viewmodel untuk mendapatkan nilai movie berupa PagedList
+        - Mengecek nilai jika kosong
+    - PagedList but not empty
+        - Membuat Dummy List
+        - Dummy dibuaat ke PagedList
+        - Verifikasi bahwa LocalDataSource telah mengambil data
         
 ### Instrumentation Test:
-1. Splash
-    - Splash ke Home Screen:
-        - Menunggu 2.5 detik
-        - Cek title pada appbar sesuai dengan yang diharapkan
-        - Cek kedua isi Tab Layout sesuai dengan yang diharapkan
-        
-2. Home
-    - RV Movie:
+1. HomeActivityTest
+    - loadHome:
         - Menunggu Data Api untuk di load / fetch
         - Cek ada Text di toolbar sesuai dengan yang diharapkan
+        - Cek ada Image yang ditampilkan di toolbar
+        - Cek title tab apakah tampil dan sesuai
         - Cek rv_movie ditampilkan
-        
-    - RV TV:
-        - Menunggu Data Api untuk di load / fetch
         - Klik "TV Shows" yang ada di Tab Layout
-        - Cek text di Tab Layout sesuai dengan yang diharapkan
-        - Cek rv_tv ditampilkan
+        - Cek title tab apakah tampil dan sesuai
+        - Cek rv_tv ditampilkan        
+                
+    - loadFavorite:
+        - Cek ada item di menu dan lakukan klik
+        - Cek ada Text di toolbar sesuai dan tampil
+        - Cek ada Text di tablayout sesuai dan tampil
+        - Cek ada tombol navigasi di toolbar sesuai dan tampil
         
-3. Detail
-    - Home ke Detail:
-        - Menunggu Data Api untuk di load / fetch
+    - loadDetail:
         - Cek rv_movie ditampilkan
-        - Klik item posisi 0 dari rv_movie
-        - Cek title di Toolbar sesuai dengan yang diharapkan
-        - Cek iv_poster, tv_title, tv_meta, rtb_rate, cg_genres dan tv_overview ditampilkan.
-        
-    - Home ke Detail ke Home
-        - Menunggu Data Api untuk di load / fetch
-        - Cek rv_movie ditampilkan
-        - Klik item posisi 0 dari rv_movie
-        - Cek tv_title, tv_meta ditampilkan
-        - Klik navigasi pada toolbar
-        - Memastikan text di appbar sesuai dengan yang diharapkan
-        - Memastikan rv_movie ditampilkan
+        - Klik item ke 0 pada rv_movie
+        - Cek bahwa isi dari favorite sudah ada dan ditampilkan

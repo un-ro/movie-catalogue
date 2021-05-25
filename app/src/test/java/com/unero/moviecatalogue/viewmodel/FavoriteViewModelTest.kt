@@ -35,7 +35,7 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricTestRunner::class)
 @Config(manifest = Config.NONE)
-class FavoriteViewModel: KoinTest {
+class FavoriteViewModelTest: KoinTest {
 
     private val viewModel by inject<FavoriteViewModel>()
     private val local = Mockito.mock(LocalDataSource::class.java)

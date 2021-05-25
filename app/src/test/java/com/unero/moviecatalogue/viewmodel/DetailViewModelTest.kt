@@ -34,7 +34,7 @@ import kotlin.test.assertEquals
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(RobolectricTestRunner::class)
 @Config(manifest = Config.NONE)
-class DetailViewModel: KoinTest {
+class DetailViewModelTest: KoinTest {
 
     private val viewModel by inject<DetailViewModel>()
     private lateinit var vmSpy: DetailViewModel
