@@ -7,8 +7,8 @@ import com.unero.moviecatalogue.data.remote.Endpoint
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    fun repository(api: Endpoint, local: LocalDataSource): Repository {
-        return RepositoryImpl(api, local)
+    fun repository(api: Endpoint, localDataSource: LocalDataSource): Repository {
+        return RepositoryImpl(api, localDataSource)
     }
 
     single { LocalDataSource(get()) }

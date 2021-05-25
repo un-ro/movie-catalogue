@@ -15,7 +15,7 @@ import com.unero.moviecatalogue.util.api.ResponseHandler.ifSuccess
 
 class RepositoryImpl (
     private val network: Endpoint,
-    private val local: LocalDataSource)
+    private val localDataSource: LocalDataSource)
     : Repository {
 
     // Movie, TVShow, Genres
@@ -82,16 +82,16 @@ class RepositoryImpl (
             .setInitialLoadSizeHint(4)
             .setPageSize(4)
             .build()
-        return LivePagedListBuilder(local.getFavorites(type), config).build()
+        return LivePagedListBuilder(localDataSource.getFavorites(type), config).build()
     }
 
-    override fun searchFavorite(id: Int): LiveData<Favorite> = local.searchFavorite(id)
+    override fun searchFavorite(id: Int): LiveData<Favorite> = localDataSource.searchFavorite(id)
 
     override suspend fun add(favorite: Favorite) {
-        local.add(favorite)
+        localDataSource.add(favorite)
     }
 
     override suspend fun delete(favorite: Favorite) {
-        local.remove(favorite)
+        localDataSource.remove(favorite)
     }
 }

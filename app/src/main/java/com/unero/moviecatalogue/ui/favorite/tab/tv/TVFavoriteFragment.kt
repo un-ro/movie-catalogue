@@ -26,8 +26,14 @@ class TVFavoriteFragment : Fragment() {
         setupRV()
 
         viewModel.getFav("tv").observe(viewLifecycleOwner, {
-            tvAdapter.submitList(it)
-            viewModel.setLoad(false)
+            if (it.isEmpty()) {
+                showMessage(true)
+                viewModel.setLoad(false)
+            } else {
+                tvAdapter.submitList(it)
+                showMessage(false)
+                viewModel.setLoad(false)
+            }
         })
 
         viewModel.showLoading.observe(viewLifecycleOwner, {
@@ -50,10 +56,17 @@ class TVFavoriteFragment : Fragment() {
         super.onPause()
     }
 
-    private fun showMessage() {
-        binding.apply {
-            iconError.visibility = View.VISIBLE
-            lblEmptyFavorite.visibility = View.VISIBLE
+    private fun showMessage(boolean: Boolean) {
+        if (boolean) {
+            binding.apply {
+                iconError.visibility = View.VISIBLE
+                lblEmptyFavorite.visibility = View.VISIBLE
+            }
+        } else {
+            binding.apply {
+                iconError.visibility = View.GONE
+                lblEmptyFavorite.visibility = View.GONE
+            }
         }
     }
 

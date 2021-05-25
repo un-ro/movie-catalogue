@@ -20,7 +20,7 @@ object Formatter {
             "ko" -> "Korean"
             "es" -> "Spanish"
             "ja" -> "Japanese"
-            else -> "N/A"
+            else -> originalLanguage
         }
     }
 

@@ -26,8 +26,14 @@ class MovieFavoriteFragment : Fragment() {
         setupRV()
 
         viewModel.getFav("movie").observe(viewLifecycleOwner, {
-            movieAdapter.submitList(it)
-            viewModel.setLoad(false)
+            if (it.isEmpty()) {
+                showMessage(true)
+                viewModel.setLoad(false)
+            } else {
+                movieAdapter.submitList(it)
+                showMessage(false)
+                viewModel.setLoad(false)
+            }
         })
 
         viewModel.showLoading.observe(viewLifecycleOwner, {
@@ -50,10 +56,17 @@ class MovieFavoriteFragment : Fragment() {
         super.onPause()
     }
 
-    private fun showMessage() {
-        binding.apply {
-            iconError.visibility = View.VISIBLE
-            lblEmptyFavorite.visibility = View.VISIBLE
+    private fun showMessage(boolean: Boolean) {
+        if (boolean) {
+            binding.apply {
+                iconError.visibility = View.VISIBLE
+                lblEmptyFavorite.visibility = View.VISIBLE
+            }
+        } else {
+            binding.apply {
+                iconError.visibility = View.GONE
+                lblEmptyFavorite.visibility = View.GONE
+            }
         }
     }
 

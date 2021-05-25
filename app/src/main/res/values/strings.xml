@@ -28,4 +28,5 @@
     <string name="cd_fab">Add to Favorite</string>
     <string name="item_favorite">Favorite Item</string>
     <string name="lbl_synopsis">Synopsis</string>
+    <string name="lbl_empty_fav">Favorite List is Empty</string>
 </resources>
