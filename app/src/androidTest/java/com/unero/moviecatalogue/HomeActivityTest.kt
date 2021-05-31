@@ -78,4 +78,38 @@ class HomeActivityTest {
         onView(allOf(withId(R.id.tv_overview), isDisplayed()))
         onView(allOf(withId(R.id.fab_fav), isDisplayed()))
     }
+
+    // Make sure favorite is empty first.
+    @Test
+    fun favoriteAddDelete(){
+        // Home
+        onView(withId(R.id.rv_movie)).check(ViewAssertions.matches(isDisplayed()))
+        onView(withId(R.id.rv_movie)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
+
+        // Item become Favorite
+        onView(allOf(withId(R.id.fab_fav), isDisplayed())).perform(click())
+        onView(allOf(withContentDescription("Navigate up"), isDisplayed())).perform(click())
+
+        // Navigate to Favorite
+        onView(allOf(withId(R.id.item_favorite), isDisplayed())).perform(click())
+        onView(allOf(withId(R.id.rv_movie), isDisplayed()))
+        onView(withId(R.id.rv_movie)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
+
+        // Item become Not Favorite
+        onView(allOf(withId(R.id.fab_fav), isDisplayed())).perform(click())
+        onView(allOf(withContentDescription("Navigate up"), isDisplayed())).perform(click())
+
+        onView(allOf(withId(R.id.item_favorite), isDisplayed())).perform(click())
+        onView(allOf(withText("Favorite List is Empty"), isDisplayed()))
+    }
 }
