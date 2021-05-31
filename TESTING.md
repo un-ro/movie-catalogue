@@ -73,3 +73,14 @@ Disini saya menggunakan [API tmdb](https://developers.themoviedb.org/3) untuk da
         - Cek rv_movie ditampilkan
         - Klik item ke 0 pada rv_movie
         - Cek bahwa isi dari favorite sudah ada dan ditampilkan
+        
+    - favoriteAddDelete (Harus dijalankan ketika favorite sedang kosong):
+        - Cek rv_movie ditampilkan
+        - Klik item ke 0 pada rv_movie
+        - Klik favorite
+        - Kembali ke home
+        - Ke halaman favorite
+        - Cek rv_movie pada favorite ditampilkan lalu klik item ke 0
+        - Klik tombol favorite untuk menghapus favorite
+        - Ke halaman Home lagi
+        - Ke halaman favorite lagi lalu cek jika list sudah kosong
