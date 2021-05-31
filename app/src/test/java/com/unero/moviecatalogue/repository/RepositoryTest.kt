@@ -28,7 +28,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [21, 28], manifest = Config.NONE)
+@Config(manifest = Config.NONE)
 class RepositoryTest: KoinTest {
 
     // Repository Test

@@ -27,6 +27,7 @@ import org.koin.test.get
 import org.koin.test.inject
 import org.mockito.Mockito
 import org.mockito.Mockito.verify
+import org.mockito.Mockito.verifyNoMoreInteractions
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
@@ -68,6 +69,7 @@ class DetailViewModelTest: KoinTest {
     fun tearDown() {
         Dispatchers.resetMain()
         stopKoin()
+        Mockito.reset(spy)
     }
 
     @Test
@@ -116,15 +118,14 @@ class DetailViewModelTest: KoinTest {
         }
     }
 
-    // When running all, it cannot pass. But if only test this, it can pass.
+    // Try to just run this without one package or one class
     @Test
     fun `E Delete Favorite`() {
-        vmSpy.add(favorite)
         vmSpy.delete(favorite)
-
+        assertNotNull(favorite)
         runBlocking {
-            verify(spy).add(favorite)
             verify(spy).delete(favorite)
+            verifyNoMoreInteractions(spy)
         }
     }
 }
