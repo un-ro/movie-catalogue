@@ -37,11 +37,6 @@ Disini saya menggunakan [API tmdb](https://developers.themoviedb.org/3) untuk da
     - D Search Favorite
         - Object Spy milik repo melakukan pencarian object
         - Verifikasi apakah spy repo tersebut sudah melakukan pencarian
-    - E Delete Favorite
-        - Object Spy milik repo melakukan insert object
-        - Object Spy milik repo melakukan delete object
-        - Verifikasi apakah spy repo tersebut sudah melakukan insert
-        - Verifikasi apakah spy repo tersebut sudah melakukan delete
 5. FavoriteViewModelTest
     - Get PagedList but empty
         - Request ke viewmodel untuk mendapatkan nilai movie berupa PagedList

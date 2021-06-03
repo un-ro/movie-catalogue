@@ -27,7 +27,6 @@ import org.koin.test.get
 import org.koin.test.inject
 import org.mockito.Mockito
 import org.mockito.Mockito.verify
-import org.mockito.Mockito.verifyNoMoreInteractions
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
@@ -115,17 +114,6 @@ class DetailViewModelTest: KoinTest {
 
         runBlocking {
             verify(spy).searchFavorite(favorite.id)
-        }
-    }
-
-    // Try to just run this without one package or one class
-    @Test
-    fun `E Delete Favorite`() {
-        vmSpy.delete(favorite)
-        assertNotNull(favorite)
-        runBlocking {
-            verify(spy).delete(favorite)
-            verifyNoMoreInteractions(spy)
         }
     }
 }

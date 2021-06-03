@@ -25,7 +25,6 @@ import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 @RunWith(RobolectricTestRunner::class)
 @Config(manifest = Config.NONE)
@@ -60,50 +59,48 @@ class RepositoryTest: KoinTest {
     @Test
     fun `Get Movie from Network`() {
         runBlocking {
-            when (val response = repository.topMovie()) {
-                is APIResponse.Success -> {
-                    println(response.data)
-                    assertNotNull(response.data)
-                }
-                is APIResponse.Error -> {
-                    println(response.exception.message)
-                }
-            }
+            val response = repository.topMovie() as APIResponse.Success
+            assertNotNull(response.data)
+        }
+    }
+
+    @Test
+    fun `Get Movie from Network and have size 20`() {
+        runBlocking {
+            val response = repository.topMovie() as APIResponse.Success
+            assertEquals(20, response.data.results.size)
         }
     }
 
     @Test
     fun `Get TVShow from Network`() {
         runBlocking {
-            when (val response = repository.topTV()) {
-                is APIResponse.Success -> {
-                    println(response.data)
-                    assertNotNull(response.data)
-                }
-                is APIResponse.Error -> {
-                    println(response.exception.message)
-                }
-            }
+            val response = repository.topTV() as APIResponse.Success
+            assertNotNull(response.data)
+        }
+    }
+
+    @Test
+    fun `Get TVShow from Network and have size 20`() {
+        runBlocking {
+            val response = repository.topTV() as APIResponse.Success
+            assertEquals(20, response.data.results.size)
         }
     }
 
     @Test
     fun `Get Movie Genre and check if equal to Generate`() {
         runBlocking {
-            when(val response = repository.genreMovie()) {
-                is APIResponse.Success -> assertEquals(fakeDataSuccess, response.data.genres)
-                else -> assertNull(response)
-            }
+            val response = repository.genreMovie() as APIResponse.Success
+            assertEquals(fakeDataSuccess, response.data.genres)
         }
     }
 
     @Test
     fun `Get Movie Genre and check if different to Generate`() {
         runBlocking {
-            when(val response = repository.genreMovie()) {
-                is APIResponse.Success -> assertNotEquals(fakeDataFail, response.data.genres)
-                else -> assertNull(response)
-            }
+            val response = repository.genreMovie() as APIResponse.Success
+            assertNotEquals(fakeDataFail, response.data.genres)
         }
     }
 }
