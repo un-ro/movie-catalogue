@@ -12,6 +12,7 @@
 - Test: Idling Resources, Repository + DI Test
 
 ### Stack Sub 3:
+![Submission 3 Review](git_asset/SubTiga.png)
 - All Stack Sub 2
 - Room
 - Pagination

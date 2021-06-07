@@ -23,5 +23,5 @@ class FavoritePagerAdapter(private val context: Context, fm: FragmentManager) :
         return context.resources.getString(TAB_TITLES[position])
     }
 
-    override fun getCount(): Int = 2
+    override fun getCount(): Int = TAB_TITLES.size
 }
